@@ -3,7 +3,7 @@
 /**
  * Class Course_TracerController
  * Controller for contact tracing in courses:
- *   - lecturers generate QR codes for registering to a course date
+ *   - lecturers provide QR codes for registering to a course date
  *   - participants scan QR codes and register as "present"
  *
  * This program is free software; you can redistribute it and/or
@@ -72,7 +72,7 @@ class CoursetracerController extends AuthenticatedController
             $options = new QROptions([
                 'outputType' => QRCode::OUTPUT_MARKUP_SVG,
                 'eccLevel' => QRCode::ECC_M,
-                'svgViewBoxSize' => 125
+                'svgViewBoxSize' => 67
             ]);
             $this->qr = new QRCode($options);
 
@@ -126,6 +126,12 @@ class CoursetracerController extends AuthenticatedController
 
     public function register_action($date_id, $redirect = false)
     {
+        $navigation = Navigation::getItem('/course/tracer');
+        $navigation->addSubNavigation('register', new Navigation(dgettext('tracer', 'Registrieren'),
+            PluginEngine::getURL($this, [], 'coursetracer/register')));
+
+        Navigation::activateItem('/course/tracer/register');
+
         $date = CourseDate::find($date_id);
 
         $tz = new DateTimeZone('Europe/Berlin');

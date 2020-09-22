@@ -23,6 +23,17 @@ class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin
 
         // Localization
         bindtextdomain('tracer', realpath(__DIR__.'/locale'));
+
+        if ($GLOBALS['perm']->have_perm('root')) {
+            $navigation = new Navigation($this->getDisplayName(),
+                PluginEngine::getURL($this, [], 'tracersearch'));
+
+            $navigation->addSubNavigation('search',
+                new Navigation(dgettext('tracer', 'Suche'),
+                    PluginEngine::getURL($this, [], 'tracersearch')));
+
+            Navigation::addItem('/search/tracer', $navigation);
+        }
     }
 
     /**
