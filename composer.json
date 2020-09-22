@@ -1,0 +1,16 @@
+{
+  "name": "studip/tracer",
+  "version": "0.6",
+  "description": "A plugin for Stud.IP providing functionality for contact tracing",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Thomas Hackl",
+      "email": "thomas.hackl@uni-passau.de"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "chillerlan/php-qrcode": "^3.3"
+  }
+}

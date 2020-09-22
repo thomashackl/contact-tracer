@@ -1,0 +1,7 @@
+pluginname=Kontaktverfolgung
+pluginclassname=ContactTracer
+origin=upa
+version=0.6
+description=Trace contacts and personal presence via Stud.IP
+studipMinVersion=4.2
+studipMaxVersion=4.9.99
