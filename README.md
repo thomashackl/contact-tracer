@@ -12,6 +12,9 @@ Termin registriert.
 
 Sollte es beim Scannen des Codes zu Problemen kommen, so kann die Präsenz auch manuell erfasst werden.
 
+Lehrende sehen während eines Termins, wie viele Personen schon registriert sind und können daher steuernd eingreifen und
+z.B. auf die Notwendigkeit des Registrierens hinweisen.
+
 Für entsprechende Rechtestufen gibt es darüber hinaus eine Suchfunktion, die alle Personen findet, die zu einer
 gegebenen Person innerhalb eines bestimmten Zeitfensters Kontakt in Präsenzveranstaltungen hatte. Das Suchergebnis ist
 exportierbar und kann damit auch z.B. Gesundheitsämtern zur Verfügung gestellt werden.
