@@ -43,6 +43,9 @@ class CoursetracerController extends AuthenticatedController
 
     public function index_action()
     {
+        PageLayout::addScript($this->dispatcher->current_plugin->getPluginURL() .
+            '/assets/javascripts/tracer.min.js');
+
         Navigation::activateItem('/course/tracer/qr');
 
         // Try to find current course date (only with a booked room).
@@ -62,6 +65,22 @@ class CoursetracerController extends AuthenticatedController
         if ($date) {
             PageLayout::allowFullscreenMode();
 
+            if ($this->is_lecturer) {
+                $registered = count(ContactTracerEntry::getRegisteredPersons($date->id));
+
+                $sidebar = Sidebar::get();
+                $widget = new SidebarWidget();
+                $widget->setTitle(date('d.m.Y H:i', $date->date) . ' ' . $date->getRoomName());
+                $element = new WidgetElement(sprintf(
+                    dngettext('tracer', 'Eine Person registriert', '%s Personen registriert', $registered),
+                    $registered));
+                $widget->addElement($element);
+                $widget->id = 'registered-counter';
+                $sidebar->addWidget($widget);
+            }
+
+            $this->date_id = $date->id;
+
             $this->url = URLHelper::getURL($GLOBALS['ABSOLUTE_URI_STUDIP'] .
                 'plugins.php/contacttracer/coursetracer/register/' . $date->id,
                 [
@@ -72,7 +91,7 @@ class CoursetracerController extends AuthenticatedController
             $options = new QROptions([
                 'outputType' => QRCode::OUTPUT_MARKUP_SVG,
                 'eccLevel' => QRCode::ECC_M,
-                'svgViewBoxSize' => 67
+                'svgViewBoxSize' => 100
             ]);
             $this->qr = new QRCode($options);
 
@@ -177,6 +196,23 @@ class CoursetracerController extends AuthenticatedController
         }
 
         $this->relocate('coursetracer/manual');
+    }
+
+    /**
+     * Gets the number of registered persons at the given date.
+     *
+     * @param string $date_id date to check
+     */
+    public function get_registered_count_action($date_id)
+    {
+        $registered = count(ContactTracerEntry::getRegisteredPersons($date_id));
+        $this->render_json([
+            'number' => (int) $registered,
+            'text' => sprintf(
+                dngettext('tracer', 'Eine Person registriert', '%u Personen registriert', $registered),
+                $registered
+            )
+        ]);
     }
 
 }

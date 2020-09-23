@@ -59,6 +59,14 @@ class ContactTracerEntry extends SimpleORMap
         return self::findOneBySQL("`user_id` = :user AND `date_id` = :date", ['user' => $user_id, 'date' => $date_id]);
     }
 
+    public static function getRegisteredPersons($date_id)
+    {
+        return array_map(function ($one) {
+                return $one->user_id;
+            },
+            self::findBySQL("`date_id` = :date", ['date' => $date_id]));
+    }
+
     /**
      * Visibilities are stored as strings to database (YYYY-MM-DD HH:ii:ss).
      * Internally, the model class uses DateTime objects for better handling.
