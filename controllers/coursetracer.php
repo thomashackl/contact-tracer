@@ -66,7 +66,7 @@ class CoursetracerController extends AuthenticatedController
             PageLayout::allowFullscreenMode();
 
             if ($this->is_lecturer) {
-                $registered = count(ContactTracerEntry::getRegisteredPersons($date->id));
+                $registered = count(ContactTracerEntry::findRegisteredPersons($date->id));
 
                 $sidebar = Sidebar::get();
                 $widget = new SidebarWidget();
@@ -205,7 +205,7 @@ class CoursetracerController extends AuthenticatedController
      */
     public function get_registered_count_action($date_id)
     {
-        $registered = count(ContactTracerEntry::getRegisteredPersons($date_id));
+        $registered = count(ContactTracerEntry::findRegisteredPersons($date_id));
         $this->render_json([
             'number' => (int) $registered,
             'text' => sprintf(

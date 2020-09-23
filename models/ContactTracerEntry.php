@@ -39,6 +39,11 @@ class ContactTracerEntry extends SimpleORMap
             'foreign_key' => 'course_id',
             'assoc_foreign_key' => 'seminar_id'
         ];
+        $config['belongs_to']['date'] = [
+            'class_name' => 'CourseDate',
+            'foreign_key' => 'date_id',
+            'assoc_foreign_key' => 'termin_id'
+        ];
 
         // Auto-convert database datetime from and to PHP DateTime objects for easier handling.
         $config['registered_callbacks']['before_store'][]     = 'cbDateTimeObject';
@@ -59,12 +64,49 @@ class ContactTracerEntry extends SimpleORMap
         return self::findOneBySQL("`user_id` = :user AND `date_id` = :date", ['user' => $user_id, 'date' => $date_id]);
     }
 
-    public static function getRegisteredPersons($date_id)
+    /**
+     * Fetches all registered persons at the given date.
+     *
+     * @param string $date_id
+     * @return array user IDs of all persons registered.
+     */
+    public static function findRegisteredPersons($date_id)
     {
         return array_map(function ($one) {
                 return $one->user_id;
             },
             self::findBySQL("`date_id` = :date", ['date' => $date_id]));
+    }
+
+    /**
+     * Fetches all contacts the given person had in the given time period.
+     *
+     * @param string $user_id
+     * @param DateTime $start
+     * @param DateTime $end
+     *
+     * @return array all entries
+     */
+    public static function findContacts($user_id, $start, $end)
+    {
+        // Search at which dates the user was present.
+        $present = array_map(function($one) {
+                return $one->date_id;
+            },
+            self::findBySQL(
+                "`user_id` = :user AND (`start` BETWEEN :start AND :end OR `end` BETWEEN :start AND :end)",
+                [
+                    'user' => $user_id,
+                    'start' => $start->format('Y-m-d H:i:s'),
+                    'end' => $end->format('Y-m-d H:i:s')
+                ]
+            )
+        );
+
+        return self::findBySQL(
+            "`date_id` IN (:dates) AND `user_id` != :user ORDER BY `start`",
+            ['dates' => $present, 'user' => $user_id]
+        );
     }
 
     /**
