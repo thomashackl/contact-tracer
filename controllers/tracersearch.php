@@ -79,10 +79,63 @@ class TracersearchController extends AuthenticatedController
         $print = new ExportWidget();
         $print->addLink(
             dgettext('tracer', 'Als CSV exportieren'),
-            $this->link_for('tracersearch/csv'),
+            $this->link_for('tracersearch/csv', $user->id, $start->getTimestamp(), $end->getTimestamp()),
             Icon::create('file-text+export')
         );
         $sidebar->addWidget($print);
+    }
+
+    /**
+     * Exports a contact list as CSV.
+     *
+     * @param string $user_id user ID
+     * @param int $start
+     * @param int $end
+     */
+    public function csv_action($user_id, $start, $end)
+    {
+        $tz = new DateTimeZone('Europe/Berlin');
+
+        $startTime = new DateTime('now', $tz);
+        $startTime->setTimestamp($start);
+        $endTime = new DateTime('now', $tz);
+        $endTime->setTimestamp($end);
+
+        $result = ContactTracerEntry::findContacts($user_id, $startTime, $endTime);
+
+        $user = User::find($user_id);
+
+        $csv = [
+            [
+                dgettext('tracer', 'Nachname'),
+                dgettext('tracer', 'Vorname'),
+                dgettext('tracer', 'Kontakt')
+            ]
+        ];
+        foreach ($result as $one) {
+            $courses = [];
+            $row = [
+                $one->user->nachname,
+                $one->user->vorname
+            ];
+
+            if (!$courses[$one->course->getFullname()]) {
+                $courses[$one->course->getFullname()] = $one->course->getFullname() . ':';
+            }
+
+            $courses[$one->course->getFullname()] .= "\n" . $one->start->format('d.m.Y H:i') . ' - ' .
+                $one->end->format('H:i');
+
+            $row[] = implode("\n", $courses);
+
+            $csv[] = array_values($row);
+        }
+
+        $filename = strtolower('kontaktliste-' . $user->nachname . '-' . $user->vorname .
+            '-' . $startTime->format('Y-m-d-H-i') . '-' . $endTime->format('Y-m-d-H-i'));
+
+        $this->response->add_header('Content-Disposition', 'attachment;filename=' . $filename . '.csv');
+        $this->render_text(array_to_csv($csv));
     }
 
 }
