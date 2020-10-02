@@ -1,6 +1,6 @@
 {
   "name": "studip/tracer",
-  "version": "0.9",
+  "version": "1.0",
   "description": "A plugin for Stud.IP providing functionality for contact tracing",
   "license": "GPL-2.0-or-later",
   "authors": [

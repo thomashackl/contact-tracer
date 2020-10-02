@@ -49,7 +49,9 @@ class TracersearchController extends AuthenticatedController
 
         $result = ContactTracerEntry::findContacts(Request::option('user'), $start, $end);
 
-        $this->name = User::find(Request::option('user'))->getFullname();
+        $user = User::find(Request::option('user'));
+        $this->user = $user->id;
+        $this->name = $user->getFullname();
         $this->start = $start->format('d.m.Y H:i');
         $this->end = $end->format('d.m.Y H:i');
 
@@ -72,6 +74,15 @@ class TracersearchController extends AuthenticatedController
         }
 
         ksort($this->contacts);
+
+        $sidebar = Sidebar::get();
+        $print = new ExportWidget();
+        $print->addLink(
+            dgettext('tracer', 'Als CSV exportieren'),
+            $this->link_for('tracersearch/csv'),
+            Icon::create('file-text+export')
+        );
+        $sidebar->addWidget($print);
     }
 
 }

@@ -5,10 +5,9 @@ In Zeiten einer Pandemie ist es nötig, in Präsenzveranstaltungen zu verfolgen,
 Personen Kontakt hatte. Dieses Plugin bietet dafür eine einfache Möglichkeit.
 
 ## Wie funktioniert die Kontaktverfolgung?
-Zu jedem Termin einer Veranstaltung, der eine Raumbuchung besitzt (und damit offensichtlich in Präsenz stattfindet)
-wird automatisch ein QR-Code bereitgestellt. Dieser ist zu den Zeiten des Termins und eine einstellbare Zeit davor und
-danach verfügbar und führt beim Scannen auf eine Stud.IP-Seite, die die aufrufende Person als "anwesend" bei diesem
-Termin registriert.
+Zu jedem Termin einer Veranstaltung wird automatisch ein QR-Code bereitgestellt. Dieser ist zu den Zeiten des Termins
+und eine einstellbare Zeit davor und danach verfügbar und führt beim Scannen auf eine Stud.IP-Seite, die die aufrufende
+Person als "anwesend" bei diesem Termin registriert.
 
 Sollte es beim Scannen des Codes zu Problemen kommen, so kann die Präsenz auch manuell erfasst werden.
 

@@ -35,7 +35,7 @@ class TracerSetup extends Migration {
             `date_id` VARCHAR(32) COLLATE latin1_bin NULL,
             `start` DATETIME NOT NULL,
             `end` DATETIME NOT NULL,
-            `resource_id` VARCHAR(32) COLLATE latin1_bin NOT NULL,
+            `resource_id` VARCHAR(32) COLLATE latin1_bin NULL,
             `mkdate` DATETIME NOT NULL,
             `chdate` DATETIME NOT NULL,
             PRIMARY KEY (`entry_id`),

@@ -1,0 +1,13 @@
+#date-qr-code-url {
+  display: none;
+}
+
+@media print {
+  nav.secondary-navigation, button.fullscreen-toggle {
+    display: none;
+  }
+
+  #date-qr-code-url {
+    display: block;
+  }
+}

@@ -16,10 +16,6 @@
  * @category    Tracer
  */
 
-require_once(__DIR__ . '/../vendor/autoload.php');
-
-use chillerlan\QRCode\QRCode, chillerlan\QRCode\QROptions;
-
 class CoursetracerController extends AuthenticatedController
 {
 
@@ -45,24 +41,16 @@ class CoursetracerController extends AuthenticatedController
     {
         PageLayout::addScript($this->dispatcher->current_plugin->getPluginURL() .
             '/assets/javascripts/tracer.min.js');
+        PageLayout::addStylesheet($this->dispatcher->current_plugin->getPluginURL() .
+            '/assets/stylesheets/tracer.css');
 
         Navigation::activateItem('/course/tracer/qr');
 
         // Try to find current course date (only with a booked room).
-        $date = CourseDate::findOneBySQL(
-            "JOIN `resource_bookings` b ON (b.`range_id` = `termine`.`termin_id`)
-            WHERE `termine`.`range_id` = :course
-                AND :time BETWEEN `termine`.`date` - :before AND `termine`.`end_time` + :after",
-            [
-                'course' => $this->course->id,
-                'time' => time(),
-                'before' => Config::get()->CONTACT_TRACER_TIME_OFFSET_BEFORE * 60,
-                'after' => Config::get()->CONTACT_TRACER_TIME_OFFSET_AFTER * 60
-            ]
-        );
+        $this->date = ContactTracerQRCode::findCurrentCourseDate($this->course->id);
 
         // Date found, generate QR code for registration.
-        if ($date) {
+        if ($this->date) {
             PageLayout::allowFullscreenMode();
 
             if ($this->is_lecturer) {
@@ -70,13 +58,21 @@ class CoursetracerController extends AuthenticatedController
 
                 $sidebar = Sidebar::get();
                 $widget = new SidebarWidget();
-                $widget->setTitle(date('d.m.Y H:i', $date->date) . ' ' . $date->getRoomName());
+                $widget->setTitle(date('d.m.Y H:i', $this->date->date) . ' ' . $this->date->getRoomName());
                 $element = new WidgetElement(sprintf(
                     dngettext('tracer', 'Eine Person registriert', '%s Personen registriert', $registered),
                     $registered));
                 $widget->addElement($element);
                 $widget->id = 'registered-counter';
                 $sidebar->addWidget($widget);
+
+                $print = new ExportWidget();
+                $print->addLink(
+                    dgettext('tracer', 'QR-Code drucken'),
+                    'javascript:window.print()',
+                    Icon::create('print')
+                );
+                $sidebar->addWidget($print);
             }
 
             $this->date_id = $date->id;
@@ -88,39 +84,26 @@ class CoursetracerController extends AuthenticatedController
                     'cid' => $this->course->id
                 ]);
 
-            $options = new QROptions([
-                'outputType' => QRCode::OUTPUT_MARKUP_SVG,
-                'eccLevel' => QRCode::ECC_M,
-                'svgViewBoxSize' => 100
-            ]);
-            $this->qr = new QRCode($options);
+            $this->qr = ContactTracerQRCode::get($date->id);
 
             $this->enabled = true;
 
         // No current date available, show message and next date.
         } else {
 
-            $nextDate = CourseDate::findOneBySQL(
-                "JOIN `resource_bookings` b ON (b.`range_id` = `termine`.`termin_id`)
-                WHERE `termine`.`range_id` = :course
-                    AND `termine`.`date` > :now",
-                ['course' => $this->course->id, 'now' => time()]
-            );
+            $this->date = ContactTracerQRCode::findNextCourseDate($this->course->id);
 
-            if ($nextDate) {
+             if ($this->date) {
                 PageLayout::postInfo(
                     sprintf(
                         dgettext('tracer', 'Ein QR-Code zum Registrieren der Anwesenheit wird ' .
                             'automatisch %u Minuten vor Beginn des Termins erzeugt und hier angezeigt.'),
                         Config::get()->CONTACT_TRACER_TIME_OFFSET_BEFORE
                     ),
-                    $nextDate ?
-                        [sprintf(
-                            dgettext('tracer', 'Nächster Präsenztermin: %s'),
-                            $nextDate->getFullname() . ($nextDate->getRoom() ? ' ' . $nextDate->getRoomName() : '')
-                        )] :
-                        []
-                );
+                    sprintf(
+                        dgettext('tracer', 'Nächster Präsenztermin: %s'),
+                        $this->date->getFullname() . ($this->date->getRoom() ? ' ' . $nextDate->getRoomName() : '')
+                    ));
             } else {
                 PageLayout::postInfo(dgettext('tracer',
                     'Diese Veranstaltung hat keine Präsenztermine, daher ist keine Kontaktverfolgung erforderlich.'));
@@ -136,9 +119,9 @@ class CoursetracerController extends AuthenticatedController
         Navigation::activateItem('/course/tracer/manual');
 
         $this->dates = CourseDate::findBySQL(
-            "JOIN `resource_bookings` b ON (b.`range_id` = `termine`.`termin_id`)
-                WHERE `termine`.`range_id` = :course
-                    AND `termine`.`date` <= :start",
+            "`range_id` = :course
+                    AND `date` <= :start
+            ORDER BY `date`",
             ['course' => $this->course->id, 'start' => time() + Config::get()->CONTACT_TRACER_TIME_OFFSET_BEFORE * 60]
         );
     }
@@ -166,9 +149,10 @@ class CoursetracerController extends AuthenticatedController
         $entry->chdate = new DateTime('now', $tz);
 
         if ($entry->store() !== false) {
-            PageLayout::postSuccess(
-                dgettext('tracer', 'Ihre Anwesenheit bei diesem Termin wurde registriert.')
-            );
+            PageLayout::postSuccess(sprintf(
+                dgettext('tracer', 'Ihre Anwesenheit beim Termin %s wurde registriert.'),
+                $date->getFullname() . ($date->getRoom() ? ' ' . $date->getRoomName() : '')
+            ));
         } else {
             PageLayout::postError(
                 dgettext('tracer', 'Ihre Anwesenheit bei diesem Termin konnte nicht registriert ' .

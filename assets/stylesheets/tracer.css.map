@@ -1,0 +1,1 @@
+{"version":3,"sources":["tracer.scss"],"names":[],"mappings":"AAAA,iB,CACE,Y,CAGF,aAC4B,wB,CAA1B,wB,CACE,Y,CAGF,iB,CACE,e","file":"tracer.scss","sourcesContent":["#date-qr-code-url {\n  display: none;\n}\n\n@media print {\n  nav.secondary-navigation, button.fullscreen-toggle {\n    display: none;\n  }\n\n  #date-qr-code-url {\n    display: block;\n  }\n}\n"]}
