@@ -37,7 +37,7 @@ class TracersearchController extends AuthenticatedController
 
     public function index_action()
     {
-        $this->qs = Quicksearch::get('user', new StandardSearch('user_id'))->withButton();
+        $this->qs = QuickSearch::get('user', new StandardSearch('user_id'))->withButton();
     }
 
     public function do_action()
