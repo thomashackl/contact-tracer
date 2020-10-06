@@ -78,16 +78,16 @@ class CoursetracerController extends AuthenticatedController
                 $sidebar->addWidget($print);
             }
 
-            $this->date_id = $date->id;
+            $this->date_id = $this->date->id;
 
             $this->url = URLHelper::getURL($GLOBALS['ABSOLUTE_URI_STUDIP'] .
-                'plugins.php/contacttracer/coursetracer/register/' . $date->id,
+                'plugins.php/contacttracer/coursetracer/register/' . $this->date->id,
                 [
                     'again' => 'yes',
                     'cid' => $this->course->id
                 ]);
 
-            $this->qr = ContactTracerQRCode::get($date->id);
+            $this->qr = ContactTracerQRCode::get($this->date->id);
 
             $this->enabled = true;
 
