@@ -36,5 +36,6 @@
         </tbody>
     </table>
 <?php else : ?>
-
+    <?php echo MessageBox::info(
+            dgettext('tracer', 'Es wurden keine vergangenen oder aktuellen Termine gefunden.')) ?>
 <?php endif;
