@@ -51,7 +51,10 @@ class CoursetracerController extends AuthenticatedController
 
         // Date found, generate QR code for registration.
         if ($this->date) {
-            PageLayout::allowFullscreenMode();
+
+            if (method_exists('PageLayout', 'allowFullscreenMode')) {
+                PageLayout::allowFullscreenMode();
+            }
 
             if ($this->is_lecturer) {
                 $registered = count(ContactTracerEntry::findRegisteredPersons($date->id));

@@ -21,6 +21,3 @@ exportierbar und kann damit auch z.B. Gesundheitsämtern zur Verfügung gestellt
 ## Wie wird das Plugin installiert?
 Die Installation kann ganz normal über die Stud.IP-Oberfläche oder über das Clonen dieses Git-Repositories erfolgen
 (Cloneverzeichnis muss `<studip>/public/plugins_packages/upa/ContactTracer` heißen).
-Allerdings ist vor der Aktivierung zu beachten, dass im Pluginverzeichnis auf dem Server noch `composer install`
-ausgeführt werden muss, damit die Pluginabhängigkeiten vorhanden sind, welche zur Generierung der QR-Codes benötigt
-werden.

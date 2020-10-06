@@ -14,6 +14,8 @@
  * @category    Tracer
  */
 
+require_once('ContactTracerCronjob.php');
+
 class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin, PrivacyPlugin {
 
     public function __construct() {
@@ -141,6 +143,16 @@ class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin
             }
         }
 
+    }
+
+    public static function onEnable($pluginId) {
+        parent::onEnable($pluginId);
+        ContactTracerCronjob::register()->schedulePeriodic(11, 0)->activate();
+    }
+
+    public static function onDisable($pluginId) {
+        ContactTracerCronjob::unregister();
+        parent::onDisable($pluginId);
     }
 
 }

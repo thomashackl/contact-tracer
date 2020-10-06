@@ -38,6 +38,13 @@ class TracersearchController extends AuthenticatedController
     public function index_action()
     {
         $this->qs = QuickSearch::get('user', new StandardSearch('user_id'))->withButton();
+
+        $days = Config::get()->CONTACT_TRACER_DAYS_BEFORE_AUTO_DELETION;
+
+        if ($days) {
+            PageLayout::postWarning(dgettext('tracer',
+                sprintf('Einträge werden nach %u Tagen automatisch gelöscht.', $days)));
+        }
     }
 
     public function do_action()

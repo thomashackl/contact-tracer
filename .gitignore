@@ -29,9 +29,6 @@ jspm_packages/
 # dotenv environment variables file
 .env
 
-# Composer
-vendor/
-
 # General
 .DS_Store
 .AppleDouble
