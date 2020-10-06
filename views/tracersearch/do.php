@@ -45,7 +45,7 @@
         </tbody>
     </table>
 <?php else : ?>
-    <?php echo Messagebox::info(sprintf(dgettext('tracer',
+    <?php echo MessageBox::info(sprintf(dgettext('tracer',
         'Es wurden keine Kontakte von %s im Zeitraum %s - %s gefunden.'), $name, $start, $end)) ?>
 <?php endif ?>
 <?php echo Studip\LinkButton::create(dgettext('tracer', 'Zurück zur Suche'),
