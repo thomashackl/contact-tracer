@@ -138,29 +138,38 @@ class CoursetracerController extends AuthenticatedController
         Navigation::activateItem('/course/tracer/register');
 
         $date = CourseDate::find($date_id);
+        $me = User::findCurrent()->id;
 
         $tz = new DateTimeZone('Europe/Berlin');
 
-        $entry = new ContactTracerEntry();
-        $entry->user_id = User::findCurrent()->id;
-        $entry->course_id = $date->course->id;
-        $entry->date_id = $date->id;
-        $entry->start = new DateTime(date('Y-m-d H:i:s', $date->date), $tz);
-        $entry->end = new DateTime(date('Y-m-d H:i:s', $date->end_time), $tz);
-        $entry->resource_id = $date->getRoom()->id;
-        $entry->mkdate = new DateTime('now', $tz);
-        $entry->chdate = new DateTime('now', $tz);
+        if (!ContactTracerEntry::findByUserAndDate($me, $date_id)) {
 
-        if ($entry->store() !== false) {
-            PageLayout::postSuccess(sprintf(
-                dgettext('tracer', 'Ihre Anwesenheit beim Termin %s wurde registriert.'),
+            $entry = new ContactTracerEntry();
+            $entry->user_id = $me;
+            $entry->course_id = $date->course->id;
+            $entry->date_id = $date->id;
+            $entry->start = new DateTime(date('Y-m-d H:i:s', $date->date), $tz);
+            $entry->end = new DateTime(date('Y-m-d H:i:s', $date->end_time), $tz);
+            $entry->resource_id = $date->getRoom()->id;
+            $entry->mkdate = new DateTime('now', $tz);
+            $entry->chdate = new DateTime('now', $tz);
+
+            if ($entry->store() !== false) {
+                PageLayout::postSuccess(sprintf(
+                    dgettext('tracer', 'Ihre Anwesenheit beim Termin %s wurde registriert.'),
+                    $date->getFullname() . ($date->getRoom() ? ' ' . $date->getRoomName() : '')
+                ));
+            } else {
+                PageLayout::postError(
+                    dgettext('tracer', 'Ihre Anwesenheit bei diesem Termin konnte nicht registriert ' .
+                        'werden, bitte erfassen Sie den Eintrag manuell.')
+                );
+            }
+        } else {
+            PageLayout::postWarning(sprintf(
+                dgettext('tracer', 'Ihre Anwesenheit beim Termin %s ist bereits registriert.'),
                 $date->getFullname() . ($date->getRoom() ? ' ' . $date->getRoomName() : '')
             ));
-        } else {
-            PageLayout::postError(
-                dgettext('tracer', 'Ihre Anwesenheit bei diesem Termin konnte nicht registriert ' .
-                    'werden, bitte erfassen Sie den Eintrag manuell.')
-            );
         }
 
         if ($redirect) {

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-06 11:49+0200\n"
-"PO-Revision-Date: 2020-10-06 11:49+0200\n"
+"POT-Creation-Date: 2020-10-06 14:37+0200\n"
+"PO-Revision-Date: 2020-10-06 14:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -62,7 +62,7 @@ msgstr "First name"
 msgid "Kontakt"
 msgstr "Contact"
 
-#: controllers/coursetracer.php:66 controllers/coursetracer.php:199
+#: controllers/coursetracer.php:66 controllers/coursetracer.php:207
 #, php-format
 msgid "Eine Person registriert"
 msgid_plural "%s Personen registriert"
@@ -97,12 +97,12 @@ msgstr "This course has no appointments, so no contact tracing is necessary."
 msgid "Registrieren"
 msgstr "Register"
 
-#: controllers/coursetracer.php:156
+#: controllers/coursetracer.php:158
 #, php-format
 msgid "Ihre Anwesenheit beim Termin %s wurde registriert."
 msgstr "Your attendance at the appointment %s has been registered."
 
-#: controllers/coursetracer.php:161
+#: controllers/coursetracer.php:163
 msgid ""
 "Ihre Anwesenheit bei diesem Termin konnte nicht registriert werden, bitte "
 "erfassen Sie den Eintrag manuell."
@@ -110,11 +110,17 @@ msgstr ""
 "Your attendance at this appointment could not be registered, please use "
 "manual registration."
 
-#: controllers/coursetracer.php:177
+#: controllers/coursetracer.php:169
+#, php-format
+msgid "Ihre Anwesenheit beim Termin %s ist bereits registriert."
+msgstr ""
+"Your attendance at the appointment %s has already been registered before."
+
+#: controllers/coursetracer.php:185
 msgid "Ihre Anwesenheit bei diesem Termin wurde entfernt."
 msgstr "Your attendance at this appointment has been deleted."
 
-#: controllers/coursetracer.php:181
+#: controllers/coursetracer.php:189
 msgid "Ihre Anwesenheit bei diesem Termin konnte nicht entfernt werden."
 msgstr "Your attendance at this appointment could not be deleted."
 
