@@ -14,7 +14,7 @@
  * @category    Tracer
  */
 
-class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin {
+class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin, PrivacyPlugin {
 
     public function __construct() {
         parent::__construct();
@@ -113,6 +113,34 @@ class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin
         $dispatcher->current_plugin = $this;
         $dispatcher->range_id       = $range_id;
         $dispatcher->dispatch($unconsumed_path);
+    }
+
+    /**
+     * Export available data of a given user into a storage object
+     * (an instance of the StoredUserData class) for that user.
+     *
+     * @param StoredUserData $storage object to store data into
+     */
+    public function exportUserData(StoredUserData $storage)
+    {
+        $entries = ContactTracerEntry::findByUser_id($storage->user_id);
+
+        if ($entries) {
+            $field_data = [];
+            foreach ($entries as $row) {
+                $field_data[] = [
+                    'course' => $row->course->getFullname(),
+                    'date' => $row->date->getFullname(),
+                    'start' => $row->start->format('d.m.Y H:i'),
+                    'end' => $row->end->format('d.m.Y H:i')
+                ];
+            }
+            if ($field_data) {
+                $storage->addTabularData(
+                    dgettext('tracer', 'Kontaktverfolgung'), 'contact_tracer', $field_data);
+            }
+        }
+
     }
 
 }
