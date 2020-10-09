@@ -14,6 +14,8 @@
  * @category    Tracer
  */
 
+require_once(__DIR__ . '/../ContactTracerCronjob.php');
+
 class TracerCronjobForDeletion extends Migration {
 
     public function description()
@@ -36,6 +38,9 @@ class TracerCronjobForDeletion extends Migration {
             'description' => 'Nach wie vielen Tagen sollen Kontakteinträge automatisch gelöscht werden ' .
                 '(0 schaltet die Bereinigung ab)?'
         ]);
+
+        // Register cleanup cronjob.
+        ContactTracerCronjob::register()->schedulePeriodic(11, 0)->activate();
     }
 
     /**
@@ -44,6 +49,9 @@ class TracerCronjobForDeletion extends Migration {
     public function down()
     {
         Config::get()->delete('CONTACT_TRACER_DAYS_BEFORE_AUTO_DELETION');
+
+        // Remove cronjob just to be sure.
+        ContactTracerCronjob::unregister();
     }
 
 }
