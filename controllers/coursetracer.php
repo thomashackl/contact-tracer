@@ -46,7 +46,7 @@ class CoursetracerController extends AuthenticatedController
 
         Navigation::activateItem('/course/tracer/qr');
 
-        // Try to find current course date (only with a booked room).
+        // Try to find current course date.
         $this->date = ContactTracerQRCode::findCurrentCourseDate($this->course->id);
 
         // Date found, generate QR code for registration.
@@ -57,7 +57,7 @@ class CoursetracerController extends AuthenticatedController
             }
 
             if ($this->is_lecturer) {
-                $registered = count(ContactTracerEntry::findRegisteredPersons($date->id));
+                $registered = count(ContactTracerEntry::findRegisteredPersons($this->date->id));
 
                 $sidebar = Sidebar::get();
                 $widget = new SidebarWidget();
@@ -68,6 +68,19 @@ class CoursetracerController extends AuthenticatedController
                 $widget->addElement($element);
                 $widget->id = 'registered-counter';
                 $sidebar->addWidget($widget);
+
+                if (Config::get()->CONTACT_TRACER_LECTURER_PARTICIPANT_LIST_ACCESS && $this->is_lecturer) {
+                    $views = new ViewsWidget();
+                    $views->addLink(
+                        dgettext('tracer', 'QR-Code anzeigen'),
+                        $this->link_for('coursetracer')
+                    )->setActive(true);
+                    $views->addLink(
+                        dgettext('tracer', 'Liste der registrierten Personen'),
+                        $this->link_for('coursetracer/list', $this->date->id)
+                    )->setActive(false);
+                    $sidebar->addWidget($views);
+                }
 
                 $print = new ExportWidget();
                 $print->addLink(
@@ -103,13 +116,15 @@ class CoursetracerController extends AuthenticatedController
                             'automatisch %u Minuten vor Beginn des Termins erzeugt und hier angezeigt.'),
                         Config::get()->CONTACT_TRACER_TIME_OFFSET_BEFORE
                     ),
-                    sprintf(
-                        dgettext('tracer', 'Nächster Präsenztermin: %s'),
-                        $this->date->getFullname() . ($this->date->getRoom() ? ' ' . $nextDate->getRoomName() : '')
-                    ));
+                    [sprintf(
+                        dgettext('tracer', 'Nächster Termin: %s'),
+                        trim($this->date->getFullname() . ' ' . $this->date->getRoomName())
+                    )]
+                );
             } else {
                 PageLayout::postInfo(dgettext('tracer',
-                    'Diese Veranstaltung hat keine Präsenztermine, daher ist keine Kontaktverfolgung erforderlich.'));
+                    'Diese Veranstaltung hat keine zukünftigen Termine, daher ist ' .
+                    'keine Kontaktverfolgung erforderlich.'));
             }
 
             $this->enabled = false;
@@ -129,7 +144,7 @@ class CoursetracerController extends AuthenticatedController
         );
     }
 
-    public function register_action($date_id, $redirect = false)
+    public function register_action($date_id, $user_id = '', $redirect = false)
     {
         $navigation = Navigation::getItem('/course/tracer');
         $navigation->addSubNavigation('register', new Navigation(dgettext('tracer', 'Registrieren'),
@@ -138,14 +153,15 @@ class CoursetracerController extends AuthenticatedController
         Navigation::activateItem('/course/tracer/register');
 
         $date = CourseDate::find($date_id);
-        $me = User::findCurrent()->id;
+
+        $user = $user_id != '' ? $user_id : User::findCurrent()->id;
 
         $tz = new DateTimeZone('Europe/Berlin');
 
-        if (!ContactTracerEntry::findByUserAndDate($me, $date_id)) {
+        if (!ContactTracerEntry::findByUserAndDate($user, $date_id)) {
 
             $entry = new ContactTracerEntry();
-            $entry->user_id = $me;
+            $entry->user_id = $user;
             $entry->course_id = $date->course->id;
             $entry->date_id = $date->id;
             $entry->start = new DateTime(date('Y-m-d H:i:s', $date->date), $tz);
@@ -156,18 +172,18 @@ class CoursetracerController extends AuthenticatedController
 
             if ($entry->store() !== false) {
                 PageLayout::postSuccess(sprintf(
-                    dgettext('tracer', 'Ihre Anwesenheit beim Termin %s wurde registriert.'),
+                    dgettext('tracer', 'Die Anwesenheit beim Termin %s wurde registriert.'),
                     $date->getFullname() . ($date->getRoom() ? ' ' . $date->getRoomName() : '')
                 ));
             } else {
                 PageLayout::postError(
-                    dgettext('tracer', 'Ihre Anwesenheit bei diesem Termin konnte nicht registriert ' .
+                    dgettext('tracer', 'Die Anwesenheit bei diesem Termin konnte nicht registriert ' .
                         'werden, bitte erfassen Sie den Eintrag manuell.')
                 );
             }
         } else {
             PageLayout::postWarning(sprintf(
-                dgettext('tracer', 'Ihre Anwesenheit beim Termin %s ist bereits registriert.'),
+                dgettext('tracer', 'Die Anwesenheit beim Termin %s ist bereits registriert.'),
                 $date->getFullname() . ($date->getRoom() ? ' ' . $date->getRoomName() : '')
             ));
         }
@@ -177,17 +193,19 @@ class CoursetracerController extends AuthenticatedController
         }
     }
 
-    public function unregister_action($date_id)
+    public function unregister_action($date_id, $user_id = '')
     {
-        $entry = ContactTracerEntry::findByUserAndDate(User::findCurrent()->id, $date_id);
+        $user = $user_id != '' ? $user_id : User::findCurrent()->id;
+
+        $entry = ContactTracerEntry::findByUserAndDate($user, $date_id);
 
         if ($entry->delete()) {
             PageLayout::postSuccess(
-                dgettext('tracer', 'Ihre Anwesenheit bei diesem Termin wurde entfernt.')
+                dgettext('tracer', 'Die Anwesenheit bei diesem Termin wurde entfernt.')
             );
         } else {
             PageLayout::postError(
-                dgettext('tracer', 'Ihre Anwesenheit bei diesem Termin konnte nicht entfernt werden.')
+                dgettext('tracer', 'Die Anwesenheit bei diesem Termin konnte nicht entfernt werden.')
             );
         }
 
@@ -209,6 +227,37 @@ class CoursetracerController extends AuthenticatedController
                 $registered
             )
         ]);
+    }
+
+    public function list_action($date_id)
+    {
+        if (!Config::get()->CONTACT_TRACER_LECTURER_PARTICIPANT_LIST_ACCESS || !$this->is_lecturer) {
+            throw new AccessDeniedException();
+        }
+
+        Navigation::activateItem('/course/tracer/qr');
+
+        $this->entries = DBManager::get()->fetchAll(
+            "SELECT DISTINCT a.`user_id`, a.`Nachname`, a.`Vorname`, a.`username`, IFNULL(t.`entry_id`, 0) AS registered
+            FROM `auth_user_md5` a
+                JOIN `seminar_user` s ON (s.`user_id` = a.`user_id`)
+                LEFT JOIN `contact_tracing` t ON (t.`user_id` = a.`user_id` AND t.`date_id` = :date)
+            WHERE s.`Seminar_id` = :course
+            ORDER BY a.`Nachname`, a.`Vorname`, a.`username`",
+            ['date' => $date_id, 'course' => $this->course->id]);
+        $this->date = CourseDate::find($date_id);
+
+        $sidebar = Sidebar::get();
+        $views = new ViewsWidget();
+        $views->addLink(
+            dgettext('tracer', 'QR-Code anzeigen'),
+            $this->link_for('coursetracer')
+        )->setActive(false);
+        $views->addLink(
+            dgettext('tracer', 'Liste der registrierten Personen'),
+            $this->link_for('coursetracer/list', $this->date->id)
+        )->setActive(true);
+        $sidebar->addWidget($views);
     }
 
 }

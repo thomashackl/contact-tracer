@@ -18,14 +18,16 @@
                             (($room = $date->getRoomName()) ? ' ' . $room : '')) ?>
                     </td>
                     <td>
-                        <?php if (ContactTracerEntry::findOneBySQL("`user_id` = :me AND `date_id` = :date",
-                            ['me' => User::findCurrent()->id, 'date' => $date->id])) : ?>
-                            <a href="<?php echo $controller->link_for('coursetracer/unregister', $date->id) ?>">
-                                <?php echo Icon::create('person+remove', 'clickable',
-                                    ['title' => dgettext('tracer', 'Anwesenheit entfernen') ])->asImg(20) ?>
-                            </a>
+                        <?php if (ContactTracerEntry::findByUserAndDate(User::findCurrent()->id, $date->id)) : ?>
+                            <?php if (Config::get()->CONTACT_TRACER_ENABLE_SELF_DEREGISTRATION) : ?>
+                                <a href="<?php echo $controller->link_for('coursetracer/unregister', $date->id) ?>">
+                                    <?php echo Icon::create('person+remove', 'clickable',
+                                        ['title' => dgettext('tracer',
+                                            'Anwesenheit entfernen') ])->asImg(20) ?>
+                                </a>
+                            <?php endif ?>
                         <?php else : ?>
-                            <a href="<?php echo $controller->link_for('coursetracer/register', $date->id, true) ?>">
+                            <a href="<?php echo $controller->link_for('coursetracer/register', $date->id, '', true) ?>">
                                 <?php echo Icon::create('person+add', 'clickable',
                                     ['title' => dgettext('tracer', 'Anwesenheit erfassen') ])->asImg(20) ?>
                             </a>

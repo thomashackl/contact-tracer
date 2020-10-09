@@ -22,11 +22,17 @@ exportierbar und kann damit auch z.B. Gesundheitsämtern zur Verfügung gestellt
 Die Installation kann ganz normal über die Stud.IP-Oberfläche oder über das Clonen dieses Git-Repositories erfolgen
 (Cloneverzeichnis muss `<studip>/public/plugins_packages/upa/ContactTracer` heißen).
 
+Die verwendete Bibliothek zur Erzeugung von QR-Codes benötigt mindestens PHP 7.2. Haben Sie eine niedrigere PHP-Version,
+kontaktieren Sie bitte thomas.hackl@uni-passau.de.
+
 ## Konfigurationsoptionen
-Das Plugin legt drei Einträge in der globalen Stud.IP-Konfiguration im Abschnitt "contact_tracer" an:
-- CONTACT_TRACER_DAYS_BEFORE_AUTO_DELETION: Anzahl der Tage, bevor Einträge automatisch gelöscht werden.
+Das Plugin legt fünf Einträge in der globalen Stud.IP-Konfiguration im Abschnitt "contact_tracer" an:
+- CONTACT_TRACER_DAYS_BEFORE_AUTO_DELETION (ab 1.2): Anzahl der Tage, bevor Einträge automatisch gelöscht werden.
 Standard ist 28, also vier Wochen.
 - CONTACT_TRACER_TIME_OFFSET_BEFORE: Wie viele Minuten vor Beginn eines Termins ist der zugehörige QR-Code verfügbar?
 Standard ist 30.
 - CONTACT_TRACER_TIME_OFFSET_AFTER: Wie viele Minuten nach Ende eines Termins ist der zugehörige QR-Code verfügbar?
 Standard ist 0, der QR-Code wird also zum Ende eines Termins abgeschaltet.
+- CONTACT_TRACER_ENABLE_SELF_DEREGISTRATION (ab 1.3): Dürfen Teilnehmende sich selbst aus Terminen austragen?
+- CONTACT_TRACER_LECTURER_PARTICIPANT_LIST_ACCESS (ab 1.3): Dürfen Lehrende einsehen und ändern, wer sich bereits
+zum aktuellen Termin registriert hat?
