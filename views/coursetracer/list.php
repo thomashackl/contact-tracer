@@ -42,7 +42,7 @@
                         <a href="<?php echo $controller->link_for('coursetracer/register', $date->id, $entry['user_id']) ?>">
                             <?php echo Icon::create('add', 'clickable',
                                 ['title' => dgettext('tracer',
-                                    'Anwesenheit entfernen') ])->asImg(20) ?>
+                                    'Anwesenheit erfassen') ])->asImg(20) ?>
                         </a>
                     <?php endif ?>
                 </td>
