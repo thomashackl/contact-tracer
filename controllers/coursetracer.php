@@ -102,6 +102,8 @@ class CoursetracerController extends AuthenticatedController
 
             $this->qr = ContactTracerQRCode::get($this->date->id);
 
+            $_SESSION['coursetracer_landing_point'] = $this->link_for('coursetracer');
+
             $this->enabled = true;
 
         // No current date available, show message and next date.
@@ -142,13 +144,15 @@ class CoursetracerController extends AuthenticatedController
             ORDER BY `date`",
             ['course' => $this->course->id, 'start' => time() + Config::get()->CONTACT_TRACER_TIME_OFFSET_BEFORE * 60]
         );
+
+        $_SESSION['coursetracer_landing_point'] = $this->link_for('coursetracer/manual');
     }
 
-    public function register_action($date_id, $user_id = '', $redirect = false)
+    public function register_action($date_id, $user_id = '')
     {
         $navigation = Navigation::getItem('/course/tracer');
         $navigation->addSubNavigation('register', new Navigation(dgettext('tracer', 'Registrieren'),
-            PluginEngine::getURL($this, [], 'coursetracer/register')));
+            $this->link_for('coursetracer/register', $date_id)));
 
         Navigation::activateItem('/course/tracer/register');
 
@@ -188,9 +192,7 @@ class CoursetracerController extends AuthenticatedController
             ));
         }
 
-        if ($redirect) {
-            $this->relocate('coursetracer/manual');
-        }
+        $this->relocate($_SESSION['coursetracer_landing_point'] ?: $this->link_for('coursetracer'));
     }
 
     public function unregister_action($date_id, $user_id = '')
@@ -246,6 +248,8 @@ class CoursetracerController extends AuthenticatedController
             ORDER BY a.`Nachname`, a.`Vorname`, a.`username`",
             ['date' => $date_id, 'course' => $this->course->id]);
         $this->date = CourseDate::find($date_id);
+
+        $_SESSION['coursetracer_landing_point'] = $this->link_for('coursetracer/list', $date_id);
 
         $sidebar = Sidebar::get();
         $views = new ViewsWidget();
