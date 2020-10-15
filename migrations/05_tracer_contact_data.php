@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Initializes necessary data structures for contact tracing.
+ * Provides a data field for contact, this could contain a phone number, e-mail or post address.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -13,21 +13,20 @@
  * @category    Tracer
  */
 
-class TracerSetup extends Migration {
+class TracerContactData extends Migration {
 
     public function description()
     {
-        return 'Initializes necessary data structures for contact tracing.';
+        return 'Provides a data field for contact, this could contain a phone number, e-mail or post address.';
     }
 
     /**
-     * Migration UP: We have just installed the plugin
-     * and need to prepare all necessary data.
+     * Migration UP: Add the column to database table
      */
     public function up()
     {
-        // Table for storing who was present at which course date.
-        DBManager::get()->execute("ALTER TABLE `contact_tracing` ADD `contact` TEXT NOT NULL AFTER `resource_id`;");
+        // Add a column for storing contact data.
+        DBManager::get()->execute("ALTER TABLE `contact_tracing` ADD `contact` TEXT NULL DEFAULT '' AFTER `resource_id`");
     }
 
     /**
@@ -35,8 +34,8 @@ class TracerSetup extends Migration {
      */
     public function down()
     {
-        // Remove database table.
-        DBManager::get()->execute("DROP TABLE IF EXISTS `contact_tracing`");
+        // Remove column with contact data.
+        DBManager::get()->execute("ALTER TABLE `contact_tracing` DROP `contact`");
     }
 
 }

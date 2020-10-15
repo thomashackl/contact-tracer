@@ -19,6 +19,8 @@
  * @property string date_id database column
  * @property int start database column
  * @property int end database column
+ * @property string resource_id database column
+ * @property string contact database column
  * @property string mkdate database column
  * @property string chdate database column
  */
@@ -107,6 +109,27 @@ class ContactTracerEntry extends SimpleORMap
             "`date_id` IN (:dates) AND `user_id` != :user ORDER BY `start`",
             ['dates' => $present, 'user' => $user_id]
         );
+    }
+
+    /**
+     * Gets the last entered contact text (like email, post address or phone number)
+     *
+     * @param string $user_id
+     * @return mixed
+     */
+    public static function findLastContactText($user_id)
+    {
+        $user = User::find($user_id);
+        $lastContact = $user->email;
+
+        $last = self::findOneBySQL("`user_id` = :user ORDER BY `mkdate` DESC",
+            ['user' => $user->id]);
+
+        if ($last && $last->contact) {
+            $lastContact = $last->contact;
+        }
+
+        return $lastContact;
     }
 
     /**

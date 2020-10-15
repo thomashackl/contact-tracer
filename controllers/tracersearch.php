@@ -123,7 +123,8 @@ class TracersearchController extends AuthenticatedController
             $courses = [];
             $row = [
                 $one->user->nachname,
-                $one->user->vorname
+                $one->user->vorname,
+                $one->contact ?: $one->user->email
             ];
 
             if (!$courses[$one->course->getFullname()]) {

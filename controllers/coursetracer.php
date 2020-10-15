@@ -37,6 +37,9 @@ class CoursetracerController extends AuthenticatedController
         $this->is_lecturer = $GLOBALS['perm']->have_studip_perm('dozent', $this->course->id);
     }
 
+    /**
+     * Show QR code for current date or hint to next date
+     */
     public function index_action()
     {
         PageLayout::addScript($this->dispatcher->current_plugin->getPluginURL() .
@@ -150,12 +153,25 @@ class CoursetracerController extends AuthenticatedController
 
     public function register_action($date_id, $user_id = '')
     {
+        PageLayout::addStylesheet($this->dispatcher->current_plugin->getPluginURL() .
+            '/assets/stylesheets/tracer.css');
+
         $navigation = Navigation::getItem('/course/tracer');
         $navigation->addSubNavigation('register', new Navigation(dgettext('tracer', 'Registrieren'),
             $this->link_for('coursetracer/register', $date_id)));
 
         Navigation::activateItem('/course/tracer/register');
 
+        $this->date = CourseDate::find($date_id);
+
+        $this->user = ($user_id != '' ? $user_id : User::findCurrent()->id);
+
+        $this->lastContact = ContactTracerEntry::findLastContactText($this->user);
+
+    }
+
+    public function do_register_action($date_id, $user_id = '')
+    {
         $date = CourseDate::find($date_id);
 
         $user = $user_id != '' ? $user_id : User::findCurrent()->id;
@@ -171,6 +187,7 @@ class CoursetracerController extends AuthenticatedController
             $entry->start = new DateTime(date('Y-m-d H:i:s', $date->date), $tz);
             $entry->end = new DateTime(date('Y-m-d H:i:s', $date->end_time), $tz);
             $entry->resource_id = $date->getRoom()->id;
+            $entry->contact = trim(Request::get('contact'));
             $entry->mkdate = new DateTime('now', $tz);
             $entry->chdate = new DateTime('now', $tz);
 

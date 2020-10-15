@@ -1,2 +1,2 @@
-#date-qr-code-url{display:none}@media print{button.fullscreen-toggle,nav.secondary-navigation{display:none}#date-qr-code-url{display:block}}
+#date,#date-qr-code-url{display:none}div.disclaimer{background-color:#e7ebf1;border:1px solid #000;margin:5px;padding:5px}@media print{button.fullscreen-toggle,nav.secondary-navigation{display:none}#date,#date-qr-code-url{display:block}}
 /*# sourceMappingURL=tracer.css.map */

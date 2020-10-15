@@ -1,5 +1,12 @@
-#date-qr-code-url {
+#date, #date-qr-code-url {
   display: none;
+}
+
+div.disclaimer {
+  background-color: #e7ebf1;
+  border: 1px solid black;
+  margin: 5px;
+  padding: 5px;
 }
 
 @media print {
@@ -7,7 +14,7 @@
     display: none;
   }
 
-  #date-qr-code-url {
+  #date, #date-qr-code-url {
     display: block;
   }
 }
