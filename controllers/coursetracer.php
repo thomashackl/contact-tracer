@@ -168,6 +168,12 @@ class CoursetracerController extends AuthenticatedController
 
         $this->lastContact = ContactTracerEntry::findLastContactText($this->user);
 
+        if (ContactTracerEntry::findByUserAndDate($this->user, $date_id)) {
+            PageLayout::postWarning(sprintf(
+                dgettext('tracer', 'Die Anwesenheit beim Termin %s ist bereits registriert.'),
+                $this->date->getFullname() . ($this->date->getRoom() ? ' ' . $this->date->getRoomName() : '')
+            ));
+        }
     }
 
     public function do_register_action($date_id, $user_id = '')

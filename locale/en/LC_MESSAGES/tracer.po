@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-06 14:37+0200\n"
-"PO-Revision-Date: 2020-10-06 14:37+0200\n"
+"POT-Creation-Date: 2020-10-16 11:04+0200\n"
+"PO-Revision-Date: 2020-10-16 11:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -62,18 +62,26 @@ msgstr "First name"
 msgid "Kontakt"
 msgstr "Contact"
 
-#: controllers/coursetracer.php:66 controllers/coursetracer.php:207
+#: controllers/coursetracer.php:69 controllers/coursetracer.php:251
 #, php-format
 msgid "Eine Person registriert"
 msgid_plural "%s Personen registriert"
 msgstr[0] "One person is registered"
 msgstr[1] "%s persons are registered"
 
-#: controllers/coursetracer.php:74
+#: controllers/coursetracer.php:78 controllers/coursetracer.php:280
+msgid "QR-Code anzeigen"
+msgstr "Show QR code"
+
+#: controllers/coursetracer.php:82 controllers/coursetracer.php:284
+msgid "Liste der registrierten Personen"
+msgstr "List of registered persons"
+
+#: controllers/coursetracer.php:90
 msgid "QR-Code drucken"
 msgstr "Print QR code"
 
-#: controllers/coursetracer.php:102
+#: controllers/coursetracer.php:120
 #, php-format
 msgid ""
 "Ein QR-Code zum Registrieren der Anwesenheit wird automatisch %u Minuten vor "
@@ -82,46 +90,50 @@ msgstr ""
 "A QR code for registering present participants will be generated and shown "
 "here %u minutes before the appointment starts."
 
-#: controllers/coursetracer.php:107
-#, php-format
-msgid "Nächster Präsenztermin: %s"
+#: controllers/coursetracer.php:125
+#, fuzzy, php-format
+msgid "Nächster Termin: %s"
 msgstr "Next appointment: %s"
 
-#: controllers/coursetracer.php:112
+#: controllers/coursetracer.php:131
+#, fuzzy
 msgid ""
-"Diese Veranstaltung hat keine Präsenztermine, daher ist keine "
+"Diese Veranstaltung hat keine zukünftigen Termine, daher ist keine "
 "Kontaktverfolgung erforderlich."
 msgstr "This course has no appointments, so no contact tracing is necessary."
 
-#: controllers/coursetracer.php:135
+#: controllers/coursetracer.php:160
 msgid "Registrieren"
 msgstr "Register"
 
-#: controllers/coursetracer.php:158
-#, php-format
-msgid "Ihre Anwesenheit beim Termin %s wurde registriert."
+#: controllers/coursetracer.php:173 controllers/coursetracer.php:213
+#, fuzzy, php-format
+msgid "Die Anwesenheit beim Termin %s ist bereits registriert."
+msgstr ""
+"Your attendance at the appointment %s has already been registered before."
+
+#: controllers/coursetracer.php:202
+#, fuzzy, php-format
+msgid "Die Anwesenheit beim Termin %s wurde registriert."
 msgstr "Your attendance at the appointment %s has been registered."
 
-#: controllers/coursetracer.php:163
+#: controllers/coursetracer.php:207
+#, fuzzy
 msgid ""
-"Ihre Anwesenheit bei diesem Termin konnte nicht registriert werden, bitte "
+"Die Anwesenheit bei diesem Termin konnte nicht registriert werden, bitte "
 "erfassen Sie den Eintrag manuell."
 msgstr ""
 "Your attendance at this appointment could not be registered, please use "
 "manual registration."
 
-#: controllers/coursetracer.php:169
-#, php-format
-msgid "Ihre Anwesenheit beim Termin %s ist bereits registriert."
-msgstr ""
-"Your attendance at the appointment %s has already been registered before."
-
-#: controllers/coursetracer.php:185
-msgid "Ihre Anwesenheit bei diesem Termin wurde entfernt."
+#: controllers/coursetracer.php:229
+#, fuzzy
+msgid "Die Anwesenheit bei diesem Termin wurde entfernt."
 msgstr "Your attendance at this appointment has been deleted."
 
-#: controllers/coursetracer.php:189
-msgid "Ihre Anwesenheit bei diesem Termin konnte nicht entfernt werden."
+#: controllers/coursetracer.php:233
+#, fuzzy
+msgid "Die Anwesenheit bei diesem Termin konnte nicht entfernt werden."
 msgstr "Your attendance at this appointment could not be deleted."
 
 #: views/tracersearch/index.php:5
@@ -147,7 +159,7 @@ msgid_plural "%u Kontaktpersonen von %2$s im Zeitraum %3$s - %4$s"
 msgstr[0] "One contact person of %2$s in the time %3$s - %4$s"
 msgstr[1] "%u contact persons of %2$s in the time %3$s - %4$s"
 
-#: views/tracersearch/do.php:18
+#: views/tracersearch/do.php:18 views/coursetracer/list.php:16
 msgid "Name"
 msgstr "Name"
 
@@ -164,23 +176,72 @@ msgstr "No contacts of %s have been found in the time %s - %s."
 msgid "Zurück zur Suche"
 msgstr "Back to search"
 
+#: views/coursetracer/index.php:3
+#, php-format
+msgid "QR-Code für %s"
+msgstr "QR code for %s"
+
+#: views/coursetracer/register.php:6
+#, php-format
+msgid "Registrierung der Anwesenheit beim Präsenztermin %s"
+msgstr "Attendance at appointment %s"
+
+#: views/coursetracer/register.php:12
+msgid ""
+"Wie möchten Sie bei einem Coronafall kontaktiert werden? Geben Sie hier "
+"eine E-Mail- oder Postadresse oder Telefonnummer an:"
+msgstr ""
+"How do you want to be contacted if a Corona case is found? Please enter an e-"
+"mail or postal address or a phone number."
+
+#: views/coursetracer/register.php:17
+msgid ""
+"Die hier erfassten Daten werden ausschließlich zum Zweck der "
+"Kontaktverfolgung gespeichert."
+msgstr "The data entered here will only be stored for contact tracing."
+
+#: views/coursetracer/register.php:20
+#, php-format
+msgid "Nach %u Tagen werden diese Daten automatisch gelöscht."
+msgstr "All entries are deleted automatically after %u days."
+
+#: views/coursetracer/register.php:26
+msgid "Anwesenheit registrieren"
+msgstr "Register attendance"
+
+#: views/coursetracer/register.php:27
+msgid "Abbrechen"
+msgstr "Cancel"
+
+#: views/coursetracer/list.php:17
+msgid "Registriert?"
+msgstr "Registered?"
+
+#: views/coursetracer/list.php:18
+msgid "Aktion"
+msgstr "Action"
+
+#: views/coursetracer/list.php:39 views/coursetracer/manual.php:26
+msgid "Anwesenheit entfernen"
+msgstr "Remove attendance"
+
+#: views/coursetracer/list.php:45 views/coursetracer/manual.php:35
+msgid "Anwesenheit erfassen"
+msgstr "Register attendance"
+
 #: views/coursetracer/manual.php:9
 msgid "Termin"
 msgstr "Appointment"
 
 #: views/coursetracer/manual.php:10
-msgid "Aktion"
-msgstr "Action"
-
-#: views/coursetracer/manual.php:25
-msgid "Anwesenheit entfernen"
-msgstr "Remove attendance"
+msgid "Registrierung"
+msgstr "Registration"
 
 #: views/coursetracer/manual.php:30
-msgid "Anwesenheit erfassen"
-msgstr "Register attendance"
+msgid "Sie sind bereits registriert"
+msgstr "You have already been registered"
 
-#: views/coursetracer/manual.php:40
+#: views/coursetracer/manual.php:45
 msgid "Es wurden keine vergangenen oder aktuellen Termine gefunden."
 msgstr "No past or current appointments have been found."
 
