@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-16 11:04+0200\n"
-"PO-Revision-Date: 2020-10-16 11:06+0200\n"
+"POT-Creation-Date: 2020-10-23 12:20+0200\n"
+"PO-Revision-Date: 2020-10-23 12:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -46,19 +46,19 @@ msgstr "Generate contact lists using QR codes per course appointment"
 msgid "Lehr- und Lernorganisation"
 msgstr "Lecturing and learning organisation"
 
-#: controllers/tracersearch.php:88
+#: controllers/tracersearch.php:91
 msgid "Als CSV exportieren"
 msgstr "Export as CSV"
 
-#: controllers/tracersearch.php:117
+#: controllers/tracersearch.php:120
 msgid "Nachname"
 msgstr "Last name"
 
-#: controllers/tracersearch.php:118
+#: controllers/tracersearch.php:121
 msgid "Vorname"
 msgstr "First name"
 
-#: controllers/tracersearch.php:119
+#: controllers/tracersearch.php:122
 msgid "Kontakt"
 msgstr "Contact"
 
@@ -188,28 +188,28 @@ msgstr "Attendance at appointment %s"
 
 #: views/coursetracer/register.php:12
 msgid ""
-"Wie möchten Sie bei einem Coronafall kontaktiert werden? Geben Sie hier "
-"eine E-Mail- oder Postadresse oder Telefonnummer an:"
+"Bitte gehen Sie eine Telefonnummer an, unter der Sie sicher erreichbar sind. "
+"Optional können Sie zusätzlich Ihre bevorzugte E-Mail-Adresse angeben."
 msgstr ""
-"How do you want to be contacted if a Corona case is found? Please enter an e-"
-"mail or postal address or a phone number."
+"Please enter a phone number where you can be reached. Optionally, you can "
+"also enter your preferred e-mail address."
 
-#: views/coursetracer/register.php:17
+#: views/coursetracer/register.php:18
 msgid ""
 "Die hier erfassten Daten werden ausschließlich zum Zweck der "
 "Kontaktverfolgung gespeichert."
 msgstr "The data entered here will only be stored for contact tracing."
 
-#: views/coursetracer/register.php:20
+#: views/coursetracer/register.php:21
 #, php-format
 msgid "Nach %u Tagen werden diese Daten automatisch gelöscht."
 msgstr "All entries are deleted automatically after %u days."
 
-#: views/coursetracer/register.php:26
+#: views/coursetracer/register.php:27
 msgid "Anwesenheit registrieren"
 msgstr "Register attendance"
 
-#: views/coursetracer/register.php:27
+#: views/coursetracer/register.php:28
 msgid "Abbrechen"
 msgstr "Cancel"
 
@@ -256,3 +256,10 @@ msgid ""
 msgstr ""
 "Contact entries older than the configured number of days are deleted "
 "automatically."
+
+#~ msgid ""
+#~ "Wie möchten Sie bei einem Coronafall kontaktiert werden? Geben Sie hier "
+#~ "eine E-Mail- oder Postadresse oder Telefonnummer an:"
+#~ msgstr ""
+#~ "How do you want to be contacted if a Corona case is found? Please enter "
+#~ "an e-mail or postal address or a phone number."
