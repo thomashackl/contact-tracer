@@ -64,20 +64,23 @@ class TracersearchController extends AuthenticatedController
 
         $this->contacts = [];
         foreach ($result as $one) {
-            $uindex = $one->user->getFullname('full_rev') . ' (' . $one->user->username . ')';
-            $cindex = $one->course->getFullname();
 
-            if (!is_array($this->contacts[$uindex])) {
-                $this->contacts[$uindex] = [];
+            if ($one->user) {
+                $uindex = $one->user->getFullname('full_rev') . ' (' . $one->user->username . ')';
+                $cindex = $one->course->getFullname();
+
+                if (!is_array($this->contacts[$uindex])) {
+                    $this->contacts[$uindex] = [];
+                }
+
+                if (!is_array($this->contacts[$uindex][$cindex])) {
+                    $this->contacts[$uindex][$cindex] = [];
+                }
+
+                $this->contacts[$uindex][$cindex][] = $one;
+
+                ksort($this->contacts[$uindex]);
             }
-
-            if (!is_array($this->contacts[$uindex][$cindex])) {
-                $this->contacts[$uindex][$cindex] = [];
-            }
-
-            $this->contacts[$uindex][$cindex][] = $one;
-
-            ksort($this->contacts[$uindex]);
         }
 
         ksort($this->contacts);
