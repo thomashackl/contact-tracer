@@ -27,7 +27,21 @@ class TracerSetup extends Migration {
     public function up()
     {
         // Table for storing who was present at which course date.
-        DBManager::get()->execute("ALTER TABLE `contact_tracing` ADD `contact` TEXT NOT NULL AFTER `resource_id`;");
+        DBManager::get()->execute("CREATE TABLE IF NOT EXISTS `contact_tracing`
+        (
+            `entry_id` INT NOT NULL AUTO_INCREMENT,
+            `user_id` VARCHAR(32) COLLATE latin1_bin NOT NULL,
+            `course_id` VARCHAR(32) COLLATE latin1_bin NULL,
+            `date_id` VARCHAR(32) COLLATE latin1_bin NULL,
+            `start` DATETIME NOT NULL,
+            `end` DATETIME NOT NULL,
+            `resource_id` VARCHAR(32) COLLATE latin1_bin NULL,
+            `mkdate` DATETIME NOT NULL,
+            `chdate` DATETIME NOT NULL,
+            PRIMARY KEY (`entry_id`),
+            INDEX course_id (`course_id`),
+            INDEX date_id (`date_id`)
+        ) ENGINE InnoDB ROW_FORMAT=DYNAMIC");
     }
 
     /**
