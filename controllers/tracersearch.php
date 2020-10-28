@@ -70,16 +70,19 @@ class TracersearchController extends AuthenticatedController
                 $cindex = $one->course->getFullname();
 
                 if (!is_array($this->contacts[$uindex])) {
-                    $this->contacts[$uindex] = [];
+                    $this->contacts[$uindex] = [
+                        'contact' => $one->contact_data ? $one->contact_data->contact : $one->user->email,
+                        'courses' => []
+                    ];
                 }
 
-                if (!is_array($this->contacts[$uindex][$cindex])) {
-                    $this->contacts[$uindex][$cindex] = [];
+                if (!is_array($this->contacts[$uindex]['courses'][$cindex])) {
+                    $this->contacts[$uindex]['courses'][$cindex] = [];
                 }
 
-                $this->contacts[$uindex][$cindex][] = $one;
+                $this->contacts[$uindex]['courses'][$cindex][] = $one;
 
-                ksort($this->contacts[$uindex]);
+                ksort($this->contacts[$uindex]['courses']);
             }
         }
 
@@ -127,7 +130,8 @@ class TracersearchController extends AuthenticatedController
             $row = [
                 $one->user->nachname,
                 $one->user->vorname,
-                $one->contact ?: $one->user->email
+                $one->user->username,
+                $one->contact_data ? $one->contact_data->contact : $one->user->email
             ];
 
             if (!$courses[$one->course->getFullname()]) {

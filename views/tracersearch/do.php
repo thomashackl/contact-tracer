@@ -12,20 +12,22 @@
         <colgroup>
             <col>
             <col>
+            <col>
         </colgroup>
         <thead>
             <tr>
                 <th><?php echo dgettext('tracer', 'Name') ?></th>
                 <th><?php echo dgettext('tracer', 'Gemeinsame Präsenz') ?></th>
+                <th><?php echo dgettext('tracer', 'Erreichbar unter') ?></th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($contacts as $user => $courses) : ?>
+            <?php foreach ($contacts as $user => $data) : ?>
                 <tr>
                     <td><?php echo htmlReady($user) ?></td>
                     <td>
                         <ul>
-                            <?php foreach ($courses as $course => $dates) : ?>
+                            <?php foreach ($data['courses'] as $course => $dates) : ?>
                                 <li>
                                     <?php echo htmlReady($course) ?>
                                     <ul>
@@ -40,6 +42,7 @@
                             <?php endforeach ?>
                         </ul>
                     </td>
+                    <td><?= htmlReady($data['contact']) ?></td>
                 </tr>
             <?php endforeach ?>
         </tbody>

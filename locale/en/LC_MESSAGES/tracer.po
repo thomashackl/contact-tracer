@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-23 12:20+0200\n"
-"PO-Revision-Date: 2020-10-23 12:21+0200\n"
+"POT-Creation-Date: 2020-10-27 16:30+0100\n"
+"PO-Revision-Date: 2020-10-27 16:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -22,43 +22,43 @@ msgstr ""
 msgid "Suche"
 msgstr "Search"
 
-#: ContactTracer.php:46 ContactTracer.php:142
+#: ContactTracer.php:49 ContactTracer.php:145
 msgid "Kontaktverfolgung"
 msgstr "Contact tracing"
 
-#: ContactTracer.php:73
+#: ContactTracer.php:76
 msgid "QR-Code"
 msgstr "QR code"
 
-#: ContactTracer.php:75
+#: ContactTracer.php:78
 msgid "Anwesenheit manuell erfassen"
 msgstr "Register manually"
 
-#: ContactTracer.php:88
+#: ContactTracer.php:91
 msgid "Kontaktverfolgung via QR-Codes"
 msgstr "Contact tracing via QR codes"
 
-#: ContactTracer.php:89
+#: ContactTracer.php:92
 msgid "Erfassen Sie Kontaktlisten über QR-Codes pro Termin und Veranstaltung"
 msgstr "Generate contact lists using QR codes per course appointment"
 
-#: ContactTracer.php:90
+#: ContactTracer.php:93
 msgid "Lehr- und Lernorganisation"
 msgstr "Lecturing and learning organisation"
 
-#: controllers/tracersearch.php:91
+#: controllers/tracersearch.php:94
 msgid "Als CSV exportieren"
 msgstr "Export as CSV"
 
-#: controllers/tracersearch.php:120
+#: controllers/tracersearch.php:123
 msgid "Nachname"
 msgstr "Last name"
 
-#: controllers/tracersearch.php:121
+#: controllers/tracersearch.php:124
 msgid "Vorname"
 msgstr "First name"
 
-#: controllers/tracersearch.php:122
+#: controllers/tracersearch.php:125
 msgid "Kontakt"
 msgstr "Contact"
 
@@ -159,22 +159,49 @@ msgid_plural "%u Kontaktpersonen von %2$s im Zeitraum %3$s - %4$s"
 msgstr[0] "One contact person of %2$s in the time %3$s - %4$s"
 msgstr[1] "%u contact persons of %2$s in the time %3$s - %4$s"
 
-#: views/tracersearch/do.php:18 views/coursetracer/list.php:16
+#: views/tracersearch/do.php:19 views/coursetracer/list.php:16
 msgid "Name"
 msgstr "Name"
 
-#: views/tracersearch/do.php:19
+#: views/tracersearch/do.php:20
 msgid "Gemeinsame Präsenz"
 msgstr "Concurrent presence"
 
-#: views/tracersearch/do.php:49
+#: views/tracersearch/do.php:21
+msgid "Erreichbar unter"
+msgstr "Contact via"
+
+#: views/tracersearch/do.php:52
 #, php-format
 msgid "Es wurden keine Kontakte von %s im Zeitraum %s - %s gefunden."
 msgstr "No contacts of %s have been found in the time %s - %s."
 
-#: views/tracersearch/do.php:51
+#: views/tracersearch/do.php:54
 msgid "Zurück zur Suche"
 msgstr "Back to search"
+
+#: views/tracerdata/index.php:4 views/coursetracer/register.php:12
+msgid ""
+"Bitte gehen Sie eine Telefonnummer an, unter der Sie sicher erreichbar sind. "
+"Optional können Sie zusätzlich Ihre bevorzugte E-Mail-Adresse angeben."
+msgstr ""
+"Please enter a phone number where you can be reached. Optionally, you can "
+"also enter your preferred e-mail address."
+
+#: views/tracerdata/index.php:10 views/coursetracer/register.php:18
+msgid ""
+"Die hier erfassten Daten werden ausschließlich zum Zweck der "
+"Kontaktverfolgung gespeichert."
+msgstr "The data entered here will only be stored for contact tracing."
+
+#: views/tracerdata/index.php:13 views/coursetracer/register.php:21
+#, php-format
+msgid "Nach %u Tagen werden diese Daten automatisch gelöscht."
+msgstr "All entries are deleted automatically after %u days."
+
+#: views/tracerdata/index.php:20
+msgid "Speichern"
+msgstr "Save"
 
 #: views/coursetracer/index.php:3
 #, php-format
@@ -185,25 +212,6 @@ msgstr "QR code for %s"
 #, php-format
 msgid "Registrierung der Anwesenheit beim Präsenztermin %s"
 msgstr "Attendance at appointment %s"
-
-#: views/coursetracer/register.php:12
-msgid ""
-"Bitte gehen Sie eine Telefonnummer an, unter der Sie sicher erreichbar sind. "
-"Optional können Sie zusätzlich Ihre bevorzugte E-Mail-Adresse angeben."
-msgstr ""
-"Please enter a phone number where you can be reached. Optionally, you can "
-"also enter your preferred e-mail address."
-
-#: views/coursetracer/register.php:18
-msgid ""
-"Die hier erfassten Daten werden ausschließlich zum Zweck der "
-"Kontaktverfolgung gespeichert."
-msgstr "The data entered here will only be stored for contact tracing."
-
-#: views/coursetracer/register.php:21
-#, php-format
-msgid "Nach %u Tagen werden diese Daten automatisch gelöscht."
-msgstr "All entries are deleted automatically after %u days."
 
 #: views/coursetracer/register.php:27
 msgid "Anwesenheit registrieren"

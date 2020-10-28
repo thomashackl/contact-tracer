@@ -16,7 +16,7 @@
 
 require_once('ContactTracerCronjob.php');
 
-class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin, PrivacyPlugin {
+class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin, PrivacyPlugin, HomepagePlugin {
 
     public function __construct() {
         parent::__construct();
@@ -36,6 +36,9 @@ class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin
 
             Navigation::addItem('/search/tracer', $navigation);
         }
+
+        $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, [], 'tracerdata'));
+        Navigation::addItem('/profile/tracer', $navigation);
     }
 
     /**
@@ -143,6 +146,14 @@ class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin
             }
         }
 
+    }
+
+    /**
+     * @see HomepagePlugin::getHomepageTemplate()
+     */
+    public function getHomepageTemplate($user_id)
+    {
+        return null;
     }
 
     public static function onEnable($pluginId) {

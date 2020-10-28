@@ -34,7 +34,7 @@ class CoursetracerController extends AuthenticatedController
 
         $this->flash = Trails_Flash::instance();
 
-        $this->is_lecturer = $GLOBALS['perm']->have_studip_perm('dozent', $this->course->id);
+        $this->is_lecturer = $GLOBALS['perm']->have_studip_perm('tutor', $this->course->id);
     }
 
     /**
@@ -153,31 +153,6 @@ class CoursetracerController extends AuthenticatedController
 
     public function register_action($date_id, $user_id = '')
     {
-        PageLayout::addStylesheet($this->dispatcher->current_plugin->getPluginURL() .
-            '/assets/stylesheets/tracer.css');
-
-        $navigation = Navigation::getItem('/course/tracer');
-        $navigation->addSubNavigation('register', new Navigation(dgettext('tracer', 'Registrieren'),
-            $this->link_for('coursetracer/register', $date_id)));
-
-        Navigation::activateItem('/course/tracer/register');
-
-        $this->date = CourseDate::find($date_id);
-
-        $this->user = ($user_id != '' ? $user_id : User::findCurrent()->id);
-
-        $this->lastContact = ContactTracerEntry::findLastContactText($this->user);
-
-        if (ContactTracerEntry::findByUserAndDate($this->user, $date_id)) {
-            PageLayout::postWarning(sprintf(
-                dgettext('tracer', 'Die Anwesenheit beim Termin %s ist bereits registriert.'),
-                $this->date->getFullname() . ($this->date->getRoom() ? ' ' . $this->date->getRoomName() : '')
-            ));
-        }
-    }
-
-    public function do_register_action($date_id, $user_id = '')
-    {
         $date = CourseDate::find($date_id);
 
         $user = $user_id != '' ? $user_id : User::findCurrent()->id;
@@ -193,7 +168,6 @@ class CoursetracerController extends AuthenticatedController
             $entry->start = new DateTime(date('Y-m-d H:i:s', $date->date), $tz);
             $entry->end = new DateTime(date('Y-m-d H:i:s', $date->end_time), $tz);
             $entry->resource_id = $date->getRoom()->id;
-            $entry->contact = trim(Request::get('contact'));
             $entry->mkdate = new DateTime('now', $tz);
             $entry->chdate = new DateTime('now', $tz);
 
