@@ -60,6 +60,26 @@ class CoursetracerController extends AuthenticatedController
             }
 
             if ($this->is_lecturer) {
+
+                /*
+                 * Auto-register lecturers on showing the QR code,
+                 * otherwise they would be white spots in our contact map.
+                 */
+                if (!ContactTracerEntry::findByUserAndDate(User::findCurrent()->id, $this->date->id)) {
+                    $tz = new DateTimeZone('Europe/Berlin');
+
+                    $entry = new ContactTracerEntry();
+                    $entry->user_id = User::findCurrent()->id;
+                    $entry->course_id = $this->date->course->id;
+                    $entry->date_id = $this->date->id;
+                    $entry->start = new DateTime(date('Y-m-d H:i:s', $this->date->date), $tz);
+                    $entry->end = new DateTime(date('Y-m-d H:i:s', $this->date->end_time), $tz);
+                    $entry->resource_id = $this->date->getRoom() ? $this->date->getRoom()->id : null;
+                    $entry->mkdate = new DateTime('now', $tz);
+                    $entry->chdate = new DateTime('now', $tz);
+                    $entry->store();
+                }
+
                 $registered = count(ContactTracerEntry::findRegisteredPersons($this->date->id));
 
                 $sidebar = Sidebar::get();
@@ -153,6 +173,33 @@ class CoursetracerController extends AuthenticatedController
 
     public function register_action($date_id, $user_id = '')
     {
+        PageLayout::addStylesheet($this->dispatcher->current_plugin->getPluginURL() .
+            '/assets/stylesheets/tracer.css');
+
+        $navigation = Navigation::getItem('/course/tracer');
+        $navigation->addSubNavigation('register', new Navigation(dgettext('tracer', 'Registrieren'),
+            $this->link_for('coursetracer/register', $date_id)));
+
+        Navigation::activateItem('/course/tracer/register');
+
+        $this->date = CourseDate::find($date_id);
+
+        $this->user = ($user_id != '' ? $user_id : User::findCurrent()->id);
+
+        $this->contactData = ContactTracerContactData::find($this->user);
+
+        if (ContactTracerEntry::findByUserAndDate($this->user, $date_id)) {
+            PageLayout::postWarning(sprintf(
+                dgettext('tracer', 'Die Anwesenheit beim Termin %s ist bereits registriert.'),
+                $this->date->getFullname() . ($this->date->getRoom() ? ' ' . $this->date->getRoomName() : '')
+            ));
+
+            $this->relocate($_SESSION['coursetracer_landing_point'] ?: $this->link_for('coursetracer'));
+        }
+    }
+
+    public function do_register_action($date_id, $user_id = '')
+    {
         $date = CourseDate::find($date_id);
 
         $user = $user_id != '' ? $user_id : User::findCurrent()->id;
@@ -172,6 +219,22 @@ class CoursetracerController extends AuthenticatedController
             $entry->chdate = new DateTime('now', $tz);
 
             if ($entry->store() !== false) {
+
+                if (Request::get('contact')) {
+                    $data = ContactTracerContactData::find($user);
+
+                    $tz = new DateTimeZone('Europe/Berlin');
+
+                    if (!$data) {
+                        $data = new ContactTracerContactData();
+                        $data->user_id = $user;
+                        $data->mkdate = new DateTime('now', $tz);
+                    }
+                    $data->contact = Request::get('contact');
+                    $data->chdate = new DateTime('now', $tz);
+                    $data->store();
+                }
+
                 PageLayout::postSuccess(sprintf(
                     dgettext('tracer', 'Die Anwesenheit beim Termin %s wurde registriert.'),
                     $date->getFullname() . ($date->getRoom() ? ' ' . $date->getRoomName() : '')
@@ -187,6 +250,7 @@ class CoursetracerController extends AuthenticatedController
                 dgettext('tracer', 'Die Anwesenheit beim Termin %s ist bereits registriert.'),
                 $date->getFullname() . ($date->getRoom() ? ' ' . $date->getRoomName() : '')
             ));
+
         }
 
         $this->relocate($_SESSION['coursetracer_landing_point'] ?: $this->link_for('coursetracer'));

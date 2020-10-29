@@ -9,11 +9,13 @@
     </header>
     <section>
         <label for="contact">
-            <?php echo dgettext('tracer', 'Bitte gehen Sie eine Telefonnummer an, ' .
-                'unter der Sie sicher erreichbar sind. Optional können Sie zusätzlich Ihre bevorzugte ' .
-                'E-Mail-Adresse angeben.') ?>
+            <span class="required">
+                <?php echo dgettext('tracer', 'Bitte gehen Sie eine Telefonnummer an, ' .
+                    'unter der Sie sicher erreichbar sind. Optional können Sie zusätzlich Ihre bevorzugte ' .
+                    'E-Mail-Adresse angeben.') ?>
+            </span>
         </label>
-        <textarea name="contact" cols="75" rows="2"><?php echo htmlReady($lastContact) ?></textarea>
+        <textarea name="contact" cols="75" rows="2" required><?php echo htmlReady($contactData->contact) ?></textarea>
         <div class="disclaimer">
             <?php echo dgettext('tracer', 'Die hier erfassten Daten werden ausschließlich zum ' .
                 'Zweck der Kontaktverfolgung gespeichert.') ?>

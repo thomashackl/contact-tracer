@@ -39,7 +39,7 @@
                                     'Anwesenheit entfernen') ])->asImg(20) ?>
                         </a>
                     <?php else : ?>
-                        <a href="<?php echo $controller->link_for('coursetracer/register', $date->id, $entry['user_id']) ?>">
+                        <a href="<?php echo $controller->link_for('coursetracer/do_register', $date->id, $entry['user_id']) ?>">
                             <?php echo Icon::create('add', 'clickable',
                                 ['title' => dgettext('tracer',
                                     'Anwesenheit erfassen') ])->asImg(20) ?>
