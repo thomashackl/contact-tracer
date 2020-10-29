@@ -71,16 +71,28 @@ class TracersearchController extends AuthenticatedController
 
                 if (!is_array($this->contacts[$uindex])) {
                     $this->contacts[$uindex] = [
-                        'contact' => $one->contact_data ? $one->contact_data->contact : $one->user->email,
+                        'contact' => ($one->contact_data ? $one->contact_data->contact : '') . "\n" . $one->user->email,
                         'courses' => []
                     ];
                 }
 
-                if (!is_array($this->contacts[$uindex]['courses'][$cindex])) {
-                    $this->contacts[$uindex]['courses'][$cindex] = [];
+                $lecturers = $one->course->getMembersWithStatus('dozent', true)
+                    ->orderBy('position, nachname, vorname, username');
+
+                $lecturersText = [];
+
+                foreach ($lecturers as $l) {
+                    $lecturersText[] = $l->getUserFullname('full');
                 }
 
-                $this->contacts[$uindex]['courses'][$cindex][] = $one;
+                if (!is_array($this->contacts[$uindex]['courses'][$cindex])) {
+                    $this->contacts[$uindex]['courses'][$cindex] = [
+                        'lecturers' => $lecturersText,
+                        'dates' => []
+                    ];
+                }
+
+                $this->contacts[$uindex]['courses'][$cindex]['dates'][] = $one;
 
                 ksort($this->contacts[$uindex]['courses']);
             }
@@ -122,7 +134,9 @@ class TracersearchController extends AuthenticatedController
             [
                 dgettext('tracer', 'Nachname'),
                 dgettext('tracer', 'Vorname'),
-                dgettext('tracer', 'Kontakt')
+                dgettext('tracer', 'Nutzername'),
+                dgettext('tracer', 'Kontakt'),
+                dgettext('tracer', 'Termin(e)')
             ]
         ];
         foreach ($result as $one) {
@@ -131,11 +145,21 @@ class TracersearchController extends AuthenticatedController
                 $one->user->nachname,
                 $one->user->vorname,
                 $one->user->username,
-                $one->contact_data ? $one->contact_data->contact : $one->user->email
+                ($one->contact_data ? $one->contact_data->contact : '') . "\n" . $one->user->email
             ];
 
+            $lecturers = $one->course->getMembersWithStatus('dozent', true)
+                ->orderBy('position, nachname, vorname, username');
+
+            $lecturersText = [];
+
+            foreach ($lecturers as $l) {
+                $lecturersText[] = $l->getUserFullname('full');
+            }
+
             if (!$courses[$one->course->getFullname()]) {
-                $courses[$one->course->getFullname()] = $one->course->getFullname() . ':';
+                $courses[$one->course->getFullname()] = $one->course->getFullname() . ' (' .
+                    implode(', ', $lecturersText) . '):';
             }
 
             $courses[$one->course->getFullname()] .= "\n" . $one->start->format('d.m.Y H:i') . ' - ' .

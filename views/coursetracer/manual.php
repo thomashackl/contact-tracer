@@ -30,7 +30,7 @@
                                     ['title' => dgettext('tracer', 'Sie sind bereits registriert') ])->asImg(20) ?>
                             <?php endif ?>
                         <?php else : ?>
-                            <a href="<?php echo $controller->link_for('coursetracer/do_register', $date->id) ?>">
+                            <a href="<?php echo $controller->link_for('coursetracer/register', $date->id) ?>">
                                 <?php echo Icon::create('add', 'clickable',
                                     ['title' => dgettext('tracer', 'Anwesenheit erfassen') ])->asImg(20) ?>
                             </a>

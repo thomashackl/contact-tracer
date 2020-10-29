@@ -17,21 +17,23 @@
         <thead>
             <tr>
                 <th><?php echo dgettext('tracer', 'Name') ?></th>
-                <th><?php echo dgettext('tracer', 'Gemeinsame Präsenz') ?></th>
                 <th><?php echo dgettext('tracer', 'Erreichbar unter') ?></th>
+                <th><?php echo dgettext('tracer', 'Gemeinsame Präsenz') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($contacts as $user => $data) : ?>
                 <tr>
                     <td><?php echo htmlReady($user) ?></td>
+                    <td><?= nl2br(htmlReady($data['contact'])) ?></td>
                     <td>
                         <ul>
-                            <?php foreach ($data['courses'] as $course => $dates) : ?>
+                            <?php foreach ($data['courses'] as $course => $data) : ?>
                                 <li>
                                     <?php echo htmlReady($course) ?>
+                                    (<?php echo htmlReady(implode(', ', $data['lecturers'])) ?>)
                                     <ul>
-                                        <?php foreach ($dates as $date) : ?>
+                                        <?php foreach ($data['dates'] as $date) : ?>
                                             <li>
                                                 <?php echo $date->date->getFullname() . ' ' .
                                                     $date->date->getRoomName() ?>
@@ -42,7 +44,6 @@
                             <?php endforeach ?>
                         </ul>
                     </td>
-                    <td><?= htmlReady($data['contact']) ?></td>
                 </tr>
             <?php endforeach ?>
         </tbody>
