@@ -188,6 +188,9 @@ class CoursetracerController extends AuthenticatedController
 
         $this->contactData = ContactTracerContactData::find($this->user);
 
+        $this->disclaimer = Config::get()->CONTACT_TRACER_DISCLAIMER;
+        $this->must_accept_disclaimer = Config::get()->CONTACT_TRACER_MUST_ACCEPT_DISCLAIMER;
+
         if (ContactTracerEntry::findByUserAndDate($this->user, $date_id)) {
             PageLayout::postWarning(sprintf(
                 dgettext('tracer', 'Die Anwesenheit beim Termin %s ist bereits registriert.'),
@@ -202,7 +205,17 @@ class CoursetracerController extends AuthenticatedController
     {
         $date = CourseDate::find($date_id);
 
-        $user = $user_id != '' ? $user_id : User::findCurrent()->id;
+        $me = User::findCurrent()->id;
+        $user = $user_id != '' ? $user_id : $me;
+
+        if ($user_id == ''  || $user_id == $me) {
+            if (Config::get()->CONTACT_TRACER_MUST_ACCEPT_DISCLAIMER && Request::int('accepted') != 1) {
+                PageLayout::postError(dgettext('tracer',
+                    'Bitte bestätigen Sie, die Angaben gelesen und akzeptiert zu haben.'));
+
+                $this->relocate('register', $date_id, $user_id);
+            }
+        }
 
         $tz = new DateTimeZone('Europe/Berlin');
 

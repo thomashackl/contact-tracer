@@ -17,14 +17,24 @@
         </label>
         <textarea name="contact" cols="75" rows="2" required><?php echo htmlReady($contactData->contact) ?></textarea>
         <div class="disclaimer">
-            <?php echo dgettext('tracer', 'Die hier erfassten Daten werden ausschließlich zum ' .
-                'Zweck der Kontaktverfolgung gespeichert.') ?>
+            <?php echo formatReady($disclaimer) ?>
             <?php if (Config::get()->CONTACT_TRACER_DAYS_BEFORE_AUTO_DELETION) : ?>
-                <?php echo sprintf(dgettext('tracer', 'Nach %u Tagen werden diese Daten automatisch gelöscht.'),
+                <?php echo sprintf(dgettext('tracer', 'Nach %u Tagen werden die Daten automatisch gelöscht.'),
                     Config::get()->CONTACT_TRACER_DAYS_BEFORE_AUTO_DELETION) ?>
             <?php endif ?>
         </div>
     </section>
+    <?php if ($must_accept_disclaimer != '') : ?>
+        <section>
+            <span class="required">
+                <input type="checkbox" name="accepted" value="1" id="accpted" required>
+                <label class="undecorated" for="accpted">
+                    <?php echo dgettext('tracer',
+                        'Ich bestätige, die oben genannten Angaben gelesen und akzeptiert zu haben.') ?>
+                </label>
+            </span>
+        </section>
+    <?php endif ?>
     <footer data-dialog-button>
         <?php echo Studip\Button::createAccept(dgettext('tracer', 'Anwesenheit registrieren'), 'store') ?>
         <?php echo Studip\LinkButton::createCancel(dgettext('tracer', 'Abbrechen'),

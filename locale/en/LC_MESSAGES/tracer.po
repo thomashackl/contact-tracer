@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-29 14:55+0100\n"
-"PO-Revision-Date: 2020-10-29 14:56+0100\n"
+"POT-Creation-Date: 2020-11-05 16:45+0100\n"
+"PO-Revision-Date: 2020-11-05 16:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -70,18 +70,18 @@ msgstr "Contact"
 msgid "Termin(e)"
 msgstr "Appointment(s)"
 
-#: controllers/coursetracer.php:89 controllers/coursetracer.php:289
+#: controllers/coursetracer.php:89 controllers/coursetracer.php:302
 #, php-format
 msgid "Eine Person registriert"
 msgid_plural "%s Personen registriert"
 msgstr[0] "One person is registered"
 msgstr[1] "%s persons are registered"
 
-#: controllers/coursetracer.php:98 controllers/coursetracer.php:318
+#: controllers/coursetracer.php:98 controllers/coursetracer.php:331
 msgid "QR-Code anzeigen"
 msgstr "Show QR code"
 
-#: controllers/coursetracer.php:102 controllers/coursetracer.php:322
+#: controllers/coursetracer.php:102 controllers/coursetracer.php:335
 msgid "Liste der registrierten Personen"
 msgstr "List of registered persons"
 
@@ -114,18 +114,22 @@ msgstr ""
 msgid "Registrieren"
 msgstr "Register"
 
-#: controllers/coursetracer.php:193 controllers/coursetracer.php:250
+#: controllers/coursetracer.php:196 controllers/coursetracer.php:263
 #, php-format
 msgid "Die Anwesenheit beim Termin %s ist bereits registriert."
 msgstr ""
 "Your attendance at the appointment %s has already been registered before."
 
-#: controllers/coursetracer.php:239
+#: controllers/coursetracer.php:214
+msgid "Bitte bestätigen Sie, die Angaben gelesen und akzeptiert zu haben."
+msgstr "Please confirm you have read and accept the information."
+
+#: controllers/coursetracer.php:252
 #, php-format
 msgid "Die Anwesenheit beim Termin %s wurde registriert."
 msgstr "Your attendance at the appointment %s has been registered."
 
-#: controllers/coursetracer.php:244
+#: controllers/coursetracer.php:257
 msgid ""
 "Die Anwesenheit bei diesem Termin konnte nicht registriert werden, bitte "
 "erfassen Sie den Eintrag manuell."
@@ -133,11 +137,11 @@ msgstr ""
 "Your attendance at this appointment could not be registered, please use "
 "manual registration."
 
-#: controllers/coursetracer.php:267
+#: controllers/coursetracer.php:280
 msgid "Die Anwesenheit bei diesem Termin wurde entfernt."
 msgstr "Your attendance at this appointment has been deleted."
 
-#: controllers/coursetracer.php:271
+#: controllers/coursetracer.php:284
 msgid "Die Anwesenheit bei diesem Termin konnte nicht entfernt werden."
 msgstr "Your attendance at this appointment could not be deleted."
 
@@ -201,13 +205,13 @@ msgstr ""
 "Please enter a phone number where you can be reached. Optionally, you can "
 "also enter your preferred e-mail address."
 
-#: views/tracerdata/index.php:10 views/coursetracer/register.php:20
+#: views/tracerdata/index.php:10
 msgid ""
 "Die hier erfassten Daten werden ausschließlich zum Zweck der "
 "Kontaktverfolgung gespeichert."
 msgstr "The data entered here will only be stored for contact tracing."
 
-#: views/tracerdata/index.php:13 views/coursetracer/register.php:23
+#: views/tracerdata/index.php:13
 #, php-format
 msgid "Nach %u Tagen werden diese Daten automatisch gelöscht."
 msgstr "All entries are deleted automatically after %u days."
@@ -226,11 +230,21 @@ msgstr "QR code for %s"
 msgid "Registrierung der Anwesenheit beim Präsenztermin %s"
 msgstr "Attendance at appointment %s"
 
-#: views/coursetracer/register.php:29
+#: views/coursetracer/register.php:22
+#, php-format
+msgid "Nach %u Tagen werden die Daten automatisch gelöscht."
+msgstr "All entries are deleted automatically after %u days."
+
+#: views/coursetracer/register.php:33
+msgid ""
+"Ich bestätige, die oben genannten Angaben gelesen und akzeptiert zu haben."
+msgstr "I have read and accept the above information."
+
+#: views/coursetracer/register.php:39
 msgid "Anwesenheit registrieren"
 msgstr "Register attendance"
 
-#: views/coursetracer/register.php:30
+#: views/coursetracer/register.php:40
 msgid "Abbrechen"
 msgstr "Cancel"
 
