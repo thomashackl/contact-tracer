@@ -28,22 +28,27 @@ class TracerDisclaimer extends Migration {
      */
     public function up()
     {
-        Config::get()->create('CONTACT_TRACER_DISCLAIMER', [
-            'value' => 'Die hier erfassten Daten werden ausschließlich zum ' .
-                'Zweck der Kontaktverfolgung gespeichert. - The data entered ' .
-                'here will only be stored for contact tracing.',
-            'type' => 'string',
-            'range' => 'global',
-            'section' => 'contact_tracer',
-            'description' => 'Text, der bei Registrierung angezeigt wird.'
-        ]);
-        Config::get()->create('CONTACT_TRACER_MUST_ACCEPT_DISCLAIMER', [
-            'value' => 0,
-            'type' => 'boolean',
-            'range' => 'global',
-            'section' => 'contact_tracer',
-            'description' => 'Muss der bei der Registrierung angezeigte Text bestätigt/akzeptiert werden?'
-        ]);
+        $c = Config::get();
+        if ($c->CONTACT_TRACER_DISCLAIMER === null) {
+            $c->create('CONTACT_TRACER_DISCLAIMER', [
+                'value' => 'Die hier erfassten Daten werden ausschließlich zum ' .
+                         'Zweck der Kontaktverfolgung gespeichert. - The data entered ' .
+                         'here will only be stored for contact tracing.',
+                'type' => 'string',
+                'range' => 'global',
+                'section' => 'contact_tracer',
+                'description' => 'Text, der bei Registrierung angezeigt wird.'
+            ]);
+        }
+        if ($c->CONTACT_TRACER_MUST_ACCEPT_DISCLAIMER === null) {
+            Config::get()->create('CONTACT_TRACER_MUST_ACCEPT_DISCLAIMER', [
+                'value' => 0,
+                'type' => 'boolean',
+                'range' => 'global',
+                'section' => 'contact_tracer',
+                'description' => 'Muss der bei der Registrierung angezeigte Text bestätigt/akzeptiert werden?'
+            ]);
+        }
     }
 
     /**
@@ -52,6 +57,7 @@ class TracerDisclaimer extends Migration {
     public function down()
     {
         Config::get()->delete('CONTACT_TRACER_DISCLAIMER');
+        Config::get()->delete('CONTACT_TRACER_MUST_ACCEPT_DISCLAIMER');
     }
 
 }
