@@ -10,7 +10,7 @@
     <section>
         <label for="contact">
             <span class="required">
-                <?php echo dgettext('tracer', 'Bitte gehen Sie eine Telefonnummer an, ' .
+                <?php echo dgettext('tracer', 'Bitte geben Sie eine Telefonnummer an, ' .
                     'unter der Sie sicher erreichbar sind. Optional können Sie zusätzlich Ihre bevorzugte ' .
                     'E-Mail-Adresse angeben.') ?>
             </span>

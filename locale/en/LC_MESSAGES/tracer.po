@@ -199,7 +199,7 @@ msgstr "Back to search"
 
 #: views/tracerdata/index.php:4 views/coursetracer/register.php:13
 msgid ""
-"Bitte gehen Sie eine Telefonnummer an, unter der Sie sicher erreichbar sind. "
+"Bitte geben Sie eine Telefonnummer an, unter der Sie sicher erreichbar sind. "
 "Optional können Sie zusätzlich Ihre bevorzugte E-Mail-Adresse angeben."
 msgstr ""
 "Please enter a phone number where you can be reached. Optionally, you can "

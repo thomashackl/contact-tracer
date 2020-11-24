@@ -1,7 +1,7 @@
 <form class="default" action="<?php echo $controller->link_for('tracerdata/store') ?>" method="post">
     <section>
         <label for="contact">
-            <?php echo dgettext('tracer', 'Bitte gehen Sie eine Telefonnummer an, ' .
+            <?php echo dgettext('tracer', 'Bitte geben Sie eine Telefonnummer an, ' .
                 'unter der Sie sicher erreichbar sind. Optional können Sie zusätzlich Ihre bevorzugte ' .
                 'E-Mail-Adresse angeben.') ?>
         </label>
