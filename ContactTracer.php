@@ -42,8 +42,15 @@ class ContactTracer extends StudIPPlugin implements StandardPlugin, SystemPlugin
             Navigation::addItem('/search/tracer', $navigation);
         }
 
-        $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, [], 'tracerdata'));
-        Navigation::addItem('/profile/tracer', $navigation);
+        if (Navigation::hasItem('/profile')) {
+            $this->current_user = User::findOneByUsername(Request::username('username') ?: User::findCurrent()->username);
+
+            if ($this->current_user->id == User::findCurrent()->id ||
+                $GLOBALS['perm']->have_profile_perm('admin', $this->current_user->id)) {
+                $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, [], 'tracerdata'));
+                Navigation::addItem('/profile/tracer', $navigation);
+            }
+        }
     }
 
     /**
