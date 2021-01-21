@@ -24,19 +24,23 @@ class TracersearchController extends AuthenticatedController
      */
     public function before_filter(&$action, &$args)
     {
-        if (!$GLOBALS['perm']->have_perm('root')) {
+        if (!$GLOBALS['perm']->have_perm('root') &&
+                !$GLOBALS['user']->getAuthenticatedUser()->hasRole('Kontaktverfolgung')) {
             throw new AccessDeniedException();
         }
 
         $this->set_layout(Request::isXhr() ? null : $GLOBALS['template_factory']->open('layouts/base'));
 
         $this->flash = Trails_Flash::instance();
-
-        Navigation::activateItem('/search/tracer/search');
     }
 
+    /**
+     * Show search mask for specifying which contacts to find.
+     */
     public function index_action()
     {
+        Navigation::activateItem('/search/tracer/search');
+
         $this->qs = QuickSearch::get('user', new StandardSearch('user_id'))->withButton();
 
         $days = Config::get()->CONTACT_TRACER_DAYS_BEFORE_AUTO_DELETION;
@@ -47,8 +51,15 @@ class TracersearchController extends AuthenticatedController
         }
     }
 
+    /**
+     * Find contacts of given person in given time frame.
+     *
+     * @throws Exception
+     */
     public function do_action()
     {
+        Navigation::activateItem('/search/tracer/search');
+
         $tz = new DateTimeZone('Europe/Berlin');
 
         $start = new DateTime(Request::get('start'), $tz);
@@ -175,6 +186,43 @@ class TracersearchController extends AuthenticatedController
 
         $this->response->add_header('Content-Disposition', 'attachment;filename=' . $filename . '.csv');
         $this->render_text(array_to_csv($csv));
+    }
+
+    /**
+     * Provide a search mask for a list of usernames.
+     */
+    public function contact_data_action()
+    {
+        Navigation::activateItem('/search/tracer/contact_data');
+    }
+
+    public function get_contact_data_action()
+    {
+        if (($matriculation = Config::get()->CONTACT_TRACER_MATRICULATION_DATAFIELD_ID) != null) {
+            $entries = DBManager::get()->fetchAll(
+                "SELECT a.`Nachname`, a.`Vorname`, a.`username`, IFNULL(c.`contact`, a.`Email`)
+                FROM `auth_user_md5` a
+                    LEFT JOIN `contact_tracing_contact_data` c ON (c.`user_id` = a.`user_id`)
+                    LEFT JOIN `datafields_entries` d ON (d.`range_id` = c.`user_id` AND d.`datafield_id` = :matriculation)
+                WHERE a.`username` IN (:users) OR d.`content` IN (:users)
+                ORDER BY a.`Nachname`, a.`Vorname`, a.`username`",
+                [
+                    'users' => array_map('trim', preg_split('/\n|,/', Request::get('users'))),
+                    'matriculation' => $matriculation
+                ]
+            );
+        } else {
+            $entries = DBManager::get()->fetchAll(
+                "SELECT a.`Nachname`, a.`Vorname`, a.`username`, IFNULL(c.`contact`, a.`Email`)
+                FROM `auth_user_md5` a
+                    LEFT JOIN `contact_tracing_contact_data` c ON (c.`user_id` = a.`user_id`)
+                WHERE a.`username` IN (:usernames)
+                ORDER BY a.`Nachname`, a.`Vorname`, a.`username`",
+                ['users' => array_map('trim', preg_split('/\n|,/', Request::get('users')))]
+            );
+        }
+
+        $this->render_csv($entries);
     }
 
 }

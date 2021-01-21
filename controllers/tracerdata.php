@@ -39,6 +39,8 @@ class TracerdataController extends AuthenticatedController
     public function index_action()
     {
         $this->data = ContactTracerContactData::find($this->current_user->id);
+
+        $this->in_course = Navigation::hasItem('/course');
     }
 
     public function store_action()
