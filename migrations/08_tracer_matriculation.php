@@ -27,7 +27,7 @@ class TracerMatriculation extends Migration {
     {
         // Try to find correct ID by searching for a free datafield with name "Matrikelnummer"
         $id = '';
-        $datafield = Datafield::findOneByName('Matrikelnummer');
+        $datafield = DataField::findOneByName('Matrikelnummer');
         if ($datafield) {
             $id = $datafield->id;
         }
