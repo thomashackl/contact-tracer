@@ -11,12 +11,13 @@
         <label for="start">
             <?php echo dgettext('tracer', 'Zeitraum des Kontakts') ?>
         </label>
-        <input name="start" id="start" type="text" size="30" placeholder="tt.mm.jjjj hh:mm" data-datetime-picker>
+        <input name="start" id="start" type="text" size="30" placeholder="tt.mm.jjjj hh:mm"
+               value="<?php echo date('d.m.Y H:i', time() - 1209600) ?>" data-datetime-picker>
         <label for="end">
             <?php echo dgettext('tracer', 'bis') ?>
         </label>
         <input name="end" id="end" type="text" size="30" placeholder="tt.mm.jjjj hh:mm"
-               data-datetime-picker='{">=":"#start"}'>
+               value="<?php echo date('d.m.Y H:i') ?>" data-datetime-picker='{">=":"#start"}'>
     </section>
     <footer data-dialog-button>
         <?php echo Studip\Button::createAccept(dgettext('tracer', 'Kontakte finden'), 'store') ?>
