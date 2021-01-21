@@ -222,7 +222,14 @@ class TracersearchController extends AuthenticatedController
             );
         }
 
-        $this->render_csv($entries);
+        if (count($entries) > 0) {
+            $this->render_csv($entries, 'kontaktdaten.csv');
+        } else {
+            PageLayout::postInfo(dgettext('tracer', 'Es wurde kein Ergebnis gefunden.'));
+
+            $this->relocate('tracersearch/contact_data');
+        }
+
     }
 
 }
