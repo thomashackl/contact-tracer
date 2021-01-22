@@ -7,24 +7,24 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 16:45+0100\n"
-"PO-Revision-Date: 2020-11-05 16:47+0100\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2021-01-22 07:43+0000\n"
+"Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
+"Language-Team: English <https://develop.intelec.uni-passau.de/projects/"
+"studip/contact-tracer/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4\n"
 
 #: ContactTracer.php:35
 msgid "Suche"
 msgstr "Search"
 
 #: ContactTracer.php:39
-#, fuzzy
 msgid "Kontaktdatenexport"
-msgstr "Find contact persons"
+msgstr "Export contact data"
 
 #: ContactTracer.php:61 ContactTracer.php:157
 msgid "Kontaktverfolgung"
@@ -75,9 +75,8 @@ msgid "Termin(e)"
 msgstr "Appointment(s)"
 
 #: controllers/tracersearch.php:228
-#, fuzzy
 msgid "Es wurde kein Ergebnis gefunden."
-msgstr "No past or current appointments have been found."
+msgstr "No matching entries have been found."
 
 #: controllers/coursetracer.php:89 controllers/coursetracer.php:302
 #, php-format
@@ -183,16 +182,18 @@ msgid ""
 "Bitte hier eine durch Komma oder Zeilenumbruch getrennte Liste von Kennungen "
 "oder Matrikelnummern angeben:"
 msgstr ""
+"Please enter a comma or newline separated list of usernames or matriculation "
+"numbers:"
 
 #: views/tracersearch/contact_data.php:9
 msgid ""
 "Bitte hier eine durch Komma oder Zeilenumbruch getrennte Liste von Kennungen "
 "angeben:"
-msgstr ""
+msgstr "Please enter a comma or newline separated list of usernames:"
 
 #: views/tracersearch/contact_data.php:16
 msgid "Kontaktinformationen exportieren"
-msgstr ""
+msgstr "Export contact information"
 
 #: views/tracersearch/do.php:7
 #, php-format
