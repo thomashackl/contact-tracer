@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-05 16:45+0100\n"
+"POT-Creation-Date: 2021-01-22 08:40+0100\n"
 "PO-Revision-Date: 2020-11-05 16:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,57 +18,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.4.1\n"
 
-#: ContactTracer.php:34
+#: ContactTracer.php:35
 msgid "Suche"
 msgstr "Search"
 
-#: ContactTracer.php:49 ContactTracer.php:145
+#: ContactTracer.php:39
+#, fuzzy
+msgid "Kontaktdatenexport"
+msgstr "Find contact persons"
+
+#: ContactTracer.php:61 ContactTracer.php:157
 msgid "Kontaktverfolgung"
 msgstr "Contact tracing"
 
-#: ContactTracer.php:76
+#: ContactTracer.php:88
 msgid "QR-Code"
 msgstr "QR code"
 
-#: ContactTracer.php:78
+#: ContactTracer.php:90
 msgid "Anwesenheit manuell erfassen"
 msgstr "Register manually"
 
-#: ContactTracer.php:91
+#: ContactTracer.php:103
 msgid "Kontaktverfolgung via QR-Codes"
 msgstr "Contact tracing via QR codes"
 
-#: ContactTracer.php:92
+#: ContactTracer.php:104
 msgid "Erfassen Sie Kontaktlisten über QR-Codes pro Termin und Veranstaltung"
 msgstr "Generate contact lists using QR codes per course appointment"
 
-#: ContactTracer.php:93
+#: ContactTracer.php:105
 msgid "Lehr- und Lernorganisation"
 msgstr "Lecturing and learning organisation"
 
-#: controllers/tracersearch.php:106
+#: controllers/tracersearch.php:117
 msgid "Als CSV exportieren"
 msgstr "Export as CSV"
 
-#: controllers/tracersearch.php:135
+#: controllers/tracersearch.php:146
 msgid "Nachname"
 msgstr "Last name"
 
-#: controllers/tracersearch.php:136
+#: controllers/tracersearch.php:147
 msgid "Vorname"
 msgstr "First name"
 
-#: controllers/tracersearch.php:137
+#: controllers/tracersearch.php:148
 msgid "Nutzername"
 msgstr "Username"
 
-#: controllers/tracersearch.php:138
+#: controllers/tracersearch.php:149
 msgid "Kontakt"
 msgstr "Contact"
 
-#: controllers/tracersearch.php:139
+#: controllers/tracersearch.php:150
 msgid "Termin(e)"
 msgstr "Appointment(s)"
+
+#: controllers/tracersearch.php:228
+#, fuzzy
+msgid "Es wurde kein Ergebnis gefunden."
+msgstr "No past or current appointments have been found."
 
 #: controllers/coursetracer.php:89 controllers/coursetracer.php:302
 #, php-format
@@ -145,11 +155,11 @@ msgstr "Your attendance at this appointment has been deleted."
 msgid "Die Anwesenheit bei diesem Termin konnte nicht entfernt werden."
 msgstr "Your attendance at this appointment could not be deleted."
 
-#: controllers/tracerdata.php:61
+#: controllers/tracerdata.php:63
 msgid "Ihre Kontaktdaten wurden gespeichert."
 msgstr "Your contact data has been saved."
 
-#: controllers/tracerdata.php:63
+#: controllers/tracerdata.php:65
 msgid "Ihre Kontaktdaten konnten nicht gespeichert werden."
 msgstr "Your contact data could not be saved."
 
@@ -161,13 +171,29 @@ msgstr "Person"
 msgid "Zeitraum des Kontakts"
 msgstr "Time frame for contact"
 
-#: views/tracersearch/index.php:16
+#: views/tracersearch/index.php:17
 msgid "bis"
 msgstr "Until"
 
-#: views/tracersearch/index.php:22
+#: views/tracersearch/index.php:23
 msgid "Kontakte finden"
 msgstr "Find contact persons"
+
+#: views/tracersearch/contact_data.php:5
+msgid ""
+"Bitte hier eine durch Komma oder Zeilenumbruch getrennte Liste von Kennungen "
+"oder Matrikelnummern angeben:"
+msgstr ""
+
+#: views/tracersearch/contact_data.php:9
+msgid ""
+"Bitte hier eine durch Komma oder Zeilenumbruch getrennte Liste von Kennungen "
+"angeben:"
+msgstr ""
+
+#: views/tracersearch/contact_data.php:16
+msgid "Kontaktinformationen exportieren"
+msgstr ""
 
 #: views/tracersearch/do.php:7
 #, php-format
@@ -205,18 +231,18 @@ msgstr ""
 "Please enter a phone number where you can be reached. Optionally, you can "
 "also enter your preferred e-mail address."
 
-#: views/tracerdata/index.php:10
+#: views/tracerdata/index.php:11
 msgid ""
 "Die hier erfassten Daten werden ausschließlich zum Zweck der "
 "Kontaktverfolgung gespeichert."
 msgstr "The data entered here will only be stored for contact tracing."
 
-#: views/tracerdata/index.php:13
+#: views/tracerdata/index.php:14
 #, php-format
 msgid "Nach %u Tagen werden diese Daten automatisch gelöscht."
 msgstr "All entries are deleted automatically after %u days."
 
-#: views/tracerdata/index.php:20
+#: views/tracerdata/index.php:22
 msgid "Speichern"
 msgstr "Save"
 
