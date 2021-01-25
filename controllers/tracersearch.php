@@ -41,7 +41,28 @@ class TracersearchController extends AuthenticatedController
     {
         Navigation::activateItem('/search/tracer/search');
 
-        $this->qs = QuickSearch::get('user', new StandardSearch('user_id'))->withButton();
+        if (Config::get()->CONTACT_TRACER_MATRICULATION_DATAFIELD_ID != null) {
+            $sql = "SELECT DISTINCT auth_user_md5.user_id, CONCAT(auth_user_md5.Nachname, ', ', " .
+                    "auth_user_md5.Vorname, ' (', auth_user_md5.username, ')'), auth_user_md5.perms " .
+                "FROM auth_user_md5 ".
+                "LEFT JOIN user_info ON (user_info.user_id = auth_user_md5.user_id) " .
+                "LEFT JOIN user_visibility ON (user_visibility.user_id = auth_user_md5.user_id) " .
+                "LEFT JOIN datafields_entries ON (datafields_entries.range_id = auth_user_md5.user_id " .
+                    "AND datafields_entries.datafield_id = " .
+                        DBManager::get()->quote(Config::get()->CONTACT_TRACER_MATRICULATION_DATAFIELD_ID) .") " .
+                "WHERE ((CONCAT(auth_user_md5.Vorname, ' ', auth_user_md5.Nachname) LIKE REPLACE(:input, ' ', '% ') " .
+                "OR CONCAT(auth_user_md5.Nachname, ' ', auth_user_md5.Vorname) LIKE REPLACE(:input, ' ', '% ') " .
+                "OR CONCAT(auth_user_md5.Nachname, ', ', auth_user_md5.Vorname) LIKE :input " .
+                "OR auth_user_md5.username LIKE :input) AND " . get_vis_query('auth_user_md5', 'search') .
+                " OR datafields_entries.content LIKE :input) " .
+                " AND auth_user_md5.visible != 'never' " .
+                " ORDER BY Nachname ASC, Vorname ASC";
+
+            $search = new SQLSearch($sql, dgettext('tracer', 'Person suchen'), 'user_id');
+        } else {
+            $search = new StandardSearch('user_id');
+        }
+        $this->qs = QuickSearch::get('user', $search)->withButton();
 
         $days = Config::get()->CONTACT_TRACER_DAYS_BEFORE_AUTO_DELETION;
 
