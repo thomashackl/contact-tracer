@@ -224,7 +224,7 @@ class TracersearchController extends AuthenticatedController
                 "SELECT a.`Nachname`, a.`Vorname`, a.`username`, IFNULL(c.`contact`, a.`Email`)
                 FROM `auth_user_md5` a
                     LEFT JOIN `contact_tracing_contact_data` c ON (c.`user_id` = a.`user_id`)
-                    LEFT JOIN `datafields_entries` d ON (d.`range_id` = c.`user_id` AND d.`datafield_id` = :matriculation)
+                    LEFT JOIN `datafields_entries` d ON (d.`range_id` = a.`user_id` AND d.`datafield_id` = :matriculation)
                 WHERE a.`username` IN (:users) OR d.`content` IN (:users)
                 ORDER BY a.`Nachname`, a.`Vorname`, a.`username`",
                 [
