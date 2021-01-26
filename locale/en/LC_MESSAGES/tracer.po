@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-26 14:19+0100\n"
-"PO-Revision-Date: 2021-01-22 07:43+0000\n"
+"PO-Revision-Date: 2021-01-26 13:23+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <https://develop.intelec.uni-passau.de/projects/"
 "studip/contact-tracer/en/>\n"
@@ -51,9 +51,8 @@ msgid "Lehr- und Lernorganisation"
 msgstr "Lecturing and learning organisation"
 
 #: controllers/tracersearch.php:61
-#, fuzzy
 msgid "Person suchen"
-msgstr "Person"
+msgstr "Search for person"
 
 #: controllers/tracersearch.php:138
 msgid "Als CSV exportieren"
