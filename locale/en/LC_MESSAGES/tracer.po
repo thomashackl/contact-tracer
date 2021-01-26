@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-05 16:45+0100\n"
+"POT-Creation-Date: 2021-01-26 14:19+0100\n"
 "PO-Revision-Date: 2021-01-22 07:43+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <https://develop.intelec.uni-passau.de/projects/"
@@ -50,31 +50,36 @@ msgstr "Generate contact lists using QR codes per course appointment"
 msgid "Lehr- und Lernorganisation"
 msgstr "Lecturing and learning organisation"
 
-#: controllers/tracersearch.php:117
+#: controllers/tracersearch.php:61
+#, fuzzy
+msgid "Person suchen"
+msgstr "Person"
+
+#: controllers/tracersearch.php:138
 msgid "Als CSV exportieren"
 msgstr "Export as CSV"
 
-#: controllers/tracersearch.php:146
+#: controllers/tracersearch.php:167
 msgid "Nachname"
 msgstr "Last name"
 
-#: controllers/tracersearch.php:147
+#: controllers/tracersearch.php:168
 msgid "Vorname"
 msgstr "First name"
 
-#: controllers/tracersearch.php:148
+#: controllers/tracersearch.php:169
 msgid "Nutzername"
 msgstr "Username"
 
-#: controllers/tracersearch.php:149
+#: controllers/tracersearch.php:170
 msgid "Kontakt"
 msgstr "Contact"
 
-#: controllers/tracersearch.php:150
+#: controllers/tracersearch.php:171
 msgid "Termin(e)"
 msgstr "Appointment(s)"
 
-#: controllers/tracersearch.php:228
+#: controllers/tracersearch.php:249
 msgid "Es wurde kein Ergebnis gefunden."
 msgstr "No matching entries have been found."
 
